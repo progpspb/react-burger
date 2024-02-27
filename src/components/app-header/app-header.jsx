@@ -6,11 +6,11 @@ const AppHeader = (props) => {
         <header className={styles.header}>
             <nav className={styles.navbar + ' pb-4 pt-4'}>
                 <div className={styles.nav_left }>
-                    <a href="#" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
+                    <a href="!#" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
                         <BurgerIcon type="primary"/>
                         <span className={styles.nav_link_active}>Конструктор</span>
                     </a>
-                    <a href="#" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
+                    <a href="!#" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
                         <ListIcon type="secondary"/>
                         <span>Лента заказов</span>
                     </a>
@@ -19,7 +19,7 @@ const AppHeader = (props) => {
                     <Logo />
                 </div>
                 <div className={styles.nav_right}>
-                    <a href="#" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
+                    <a href="!#" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
                         <ProfileIcon type="secondary"/>
                         <span>Личный кабинет</span>
                     </a>

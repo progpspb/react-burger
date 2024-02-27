@@ -20,15 +20,16 @@
 }
 
 .order_item {
-    display: 'flex';
-    flex-direction: 'column';
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     gap: 10px;
 }
 
 .order_footer {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: stretch;
 }
 
 .order_total {
