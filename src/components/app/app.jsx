@@ -3,26 +3,11 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { getIngredients } from '../../utils/api';
 
-const App = () => {
-
-    const apiUrl = "https://norma.nomoreparties.space/api/ingredients";
+const App = () => {    
 
     const [ingredients, setIngredients] = useState([]);
-
-    const getIngredients = async () => {
-        return fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    return Promise.reject(`Ошибка: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                return data;
-            })
-            .catch(error => console.log(error))
-    }
     
     useEffect(() => {
         const fetchIngredientsData = async () => {
@@ -34,14 +19,14 @@ const App = () => {
             }
         }
         fetchIngredientsData();
-    }, []);
+    },[]);
 
     return (
         <>
             <AppHeader />
             <main className={styles.main}>
-                <BurgerIngredients ingredients={ingredients}/>
-                <BurgerConstructor ingredients={ingredients} />
+                <BurgerIngredients ingredients = {ingredients}/>
+                <BurgerConstructor ingredients = {ingredients} />
             </main>
         </>
     );

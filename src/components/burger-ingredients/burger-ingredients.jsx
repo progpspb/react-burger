@@ -19,7 +19,7 @@ const BurgerIngredients = ({ ingredients }) => {
         {name:'Булки',type:'bun','items':bun}, 
         {name:'Соусы',type:'sauce','items':sauce}, 
         {name:'Начинки',type:'main','items':main}
-    ]; 
+    ];
 
     const showModalHandler = (ingredient) => {
         setModal({
@@ -36,59 +36,52 @@ const BurgerIngredients = ({ ingredients }) => {
     }
 
     return (
-        <>
 
         <section>
 
             <h1 className = 'text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
 
             <div className = {styles.tabs}>
-            {ingredientsCollection.map((ingredient, idx) => {
-                return (
-                    <>
-                    <Tab value={ingredient.type} active={current === ingredient.type} onClick={setCurrent}>{ingredient.name}</Tab>
-                    </>
-                )
-            })}
+                <Tab value='bun' active={current === 'bun'} onClick={setCurrent}>Булки</Tab>
+                <Tab value='sauce' active={current === 'sauce'} onClick={setCurrent}>Булки</Tab>
+                <Tab value='main' active={current === 'main'} onClick={setCurrent}>Булки</Tab>
             </div>
 
             <div className={styles.tab_scroll + ' pb-10'}>
-                {ingredientsCollection.map((ingredient, idx) => {
+                {ingredientsCollection.map((ingredientType, idx) => {
                     return (
-                        <>
-                        <h2 id={ingredient.type} className='text text_type_main-large mt-10 mb-5'>{ingredient.name}</h2>
-                        <div className={styles.items}>
-                        {ingredient.items.map((item, index) => {
-                            return (
-                                <div className={styles.item} key={index} onClick={() => showModalHandler(item)}>
-                                    {index === 0 && <Counter count={1} size="default" /> }
-                                    <img src={item.image_large} alt={item.name} />
-                                    <div className={styles.price}>
-                                        <span>{item.price}</span>
-                                        <CurrencyIcon type="primary" />
+                        <div key = {idx}>
+                            <h2 className='text text_type_main-large mt-10 mb-5'>{ingredientType.name}</h2>
+                            <div className={styles.items}>
+                            {ingredientType.items.map((item, index) => {
+                                return (
+                                    <div key = {item._id} className={styles.item} onClick={() => showModalHandler(item)}>
+                                        {index === 0 && <Counter count={1} size="default" /> }
+                                        <img src={item.image_large} alt={item.name} />
+                                        <div className={styles.price}>
+                                            <span>{item.price}</span>
+                                            <CurrencyIcon type="primary" />
+                                        </div>
+                                        <div className='mt-2 mb-6'>{item.name}</div>
                                     </div>
-                                    <div className='mt-2 mb-6'>{item.name}</div>
-                                </div>
-                            )
-                        })}
+                                )
+                            })}
+                            </div>
                         </div>
-                        </>
                     )
                 })}
             </div>
+
+            <Modal title="Детали ингредиента" isOpen={showModal.isOpen} setModalOpened={onModalClosed}>
+                <IngredientDetails ingredient={showModal.ingredient} />
+            </Modal>            
            
         </section>
-
-        <Modal title="Детали ингредиента" isOpen={showModal.isOpen} setModalOpened={onModalClosed}>
-                <IngredientDetails ingredient={showModal.ingredient} />
-        </Modal>
-
-        </>
    );      
 }
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
+    ingredients: PropTypes.arrayOf(ingredientPropTypes)
 }
 
 export default BurgerIngredients;
