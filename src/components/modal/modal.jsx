@@ -5,7 +5,7 @@ import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import PropTypes from 'prop-types';
 
-const Modal = ({ title, children, onClose }) => {
+const Modal = ({ title, children, onClose, isOpen }) => {
 
     useEffect(() => {
         document.addEventListener('keydown', closeModal);
@@ -31,7 +31,7 @@ const Modal = ({ title, children, onClose }) => {
         </div>
         <ModalOverlay onClose = {()=>onClose()}  />
         </>,
-        document.getElementById("modal")
+        document.getElementById("modal")        
     );
 };
 
