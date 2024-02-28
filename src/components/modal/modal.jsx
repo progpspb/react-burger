@@ -5,37 +5,31 @@ import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import PropTypes from 'prop-types';
 
-const Modal = ({ title, children, isOpen, setModalOpened }) => {
-
-    const handleOverlayClick = (e) => {
-        e.stopPropagation();
-        setModalOpened(false);
-    };
+const Modal = ({ title, children, onClose }) => {
 
     useEffect(() => {
-        const handleCloseEsc = (event) => {
-            if (event.key === 'Escape') setModalOpened(false);
-        };
-
-        isOpen && document.addEventListener('keydown', handleCloseEsc);
-
+        document.addEventListener('keydown', closeModal);
         return () => {
-            document.removeEventListener('keydown', handleCloseEsc);
+            document.removeEventListener('keydown', closeModal);
         }
-    }, [isOpen, setModalOpened]);    
-  
-    if (!isOpen) return null;
-    
+    });
+
+    function closeModal(event) {
+        if (event.key === "Escape") {
+            onClose();
+        }
+    };
+      
     return createPortal(
         <>
         <div className={styles.modal}>
             <div className={styles.title}>
                 {title}
-                <span className={styles.close}><CloseIcon type="primary" onClick={() => setModalOpened(false)} /></span>
+                <span className={styles.close}><CloseIcon type="primary" onClick={() => onClose()} /></span>
             </div>
             <div className={styles.body}>{children}</div>
         </div>
-        <ModalOverlay onModalClosed = {handleOverlayClick}  />
+        <ModalOverlay onClose = {()=>onClose()}  />
         </>,
         document.getElementById("modal")
     );
@@ -44,8 +38,7 @@ const Modal = ({ title, children, isOpen, setModalOpened }) => {
 Modal.propTypes = {
     title: PropTypes.string,    
     children: PropTypes.element.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    setModalOpened: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

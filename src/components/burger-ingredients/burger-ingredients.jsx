@@ -2,6 +2,7 @@ import {useState, useMemo} from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
+import useModal from '../../hooks/useModal.js';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import PropTypes from 'prop-types';
 import ingredientPropTypes from '../../prop-types/ingredient.types.jsx';
@@ -9,7 +10,9 @@ import ingredientPropTypes from '../../prop-types/ingredient.types.jsx';
 const BurgerIngredients = ({ ingredients }) => {
 
     const [current, setCurrent] = useState('buns');
-    const [showModal, setModal] = useState({ ingredient: null, isOpen: false });
+    const [modalIngredient, setModalIngredient] = useState({});
+
+    const { isModalOpen, openModal, closeModal } = useModal(false);
 
     const bun = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
     const sauce = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]); 
@@ -22,17 +25,8 @@ const BurgerIngredients = ({ ingredients }) => {
     ];
 
     const showModalHandler = (ingredient) => {
-        setModal({
-            ingredient,
-            isOpen: true,
-        });
-    }
-
-    const onModalClosed = () => {
-        setModal({
-            ingredient: null,
-            isOpen: false,
-        });
+        setModalIngredient(ingredient);
+        openModal();
     }
 
     return (
@@ -71,10 +65,12 @@ const BurgerIngredients = ({ ingredients }) => {
                     )
                 })}
             </div>
-
-            <Modal title="Детали ингредиента" isOpen={showModal.isOpen} setModalOpened={onModalClosed}>
-                <IngredientDetails ingredient={showModal.ingredient} />
-            </Modal>            
+            
+            {isModalOpen && (
+                <Modal title="Детали ингредиента"  onClose = { closeModal }>
+                    <IngredientDetails ingredient={ modalIngredient } />
+                </Modal>
+            )}
            
         </section>
    );      

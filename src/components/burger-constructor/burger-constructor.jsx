@@ -1,19 +1,15 @@
-import { useState } from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
+import useModal from '../../hooks/useModal.js';
 import OrderDetails from '../order-details/order-details';
 import PropTypes from 'prop-types';
 import ingredientPropTypes from '../../prop-types/ingredient.types.jsx';
 
 const BurgerConstructor = ({ ingredients }) => {
 
-    const [showModal, setModal] = useState(false);
+    const { isModalOpen, openModal, closeModal } = useModal(false);
     
-    const onModalClosed = () => {
-        setModal(false);
-    }
-  
     return (
 
         <section>
@@ -68,19 +64,21 @@ const BurgerConstructor = ({ ingredients }) => {
                     {1500}
                     <CurrencyIcon type="primary" className="text text_type_digits-medium"/>
                 </span>
-                <Button htmlType="button" type="primary" size="large" onClick={() => setModal(true)}>Оформить заказ</Button>
+                <Button htmlType="button" type="primary" size="large" onClick={() => openModal()}>Оформить заказ</Button>
             </div>
 
-            <Modal isOpen={showModal} setModalOpened={onModalClosed}>
-                <OrderDetails 
-                    order = {{
-                        number: '034536', 
-                        id: 'идентификатор заказа', 
-                        status: 'Ваш заказ начали готовить', 
-                        message: 'Дождитесь готовности на орбитальной станции'
-                    }}
-                />
-            </Modal>            
+            {isModalOpen && (
+                <Modal onClose = { closeModal }>
+                    <OrderDetails 
+                        order = {{
+                            number: '034536', 
+                            id: 'идентификатор заказа', 
+                            status: 'Ваш заказ начали готовить', 
+                            message: 'Дождитесь готовности на орбитальной станции'
+                        }}
+                    />
+                </Modal>
+            )}
 
         </section>
 
