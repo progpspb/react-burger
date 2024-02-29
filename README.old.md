@@ -1,2 +1,0 @@
-# react-burger
-Stellar Burgers
