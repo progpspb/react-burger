@@ -2,8 +2,6 @@ import { useState, useMemo, useContext } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
-import PropTypes from 'prop-types';
-import ingredientPropTypes from '../../prop-types/ingredient.types.jsx';
 import { IngredientsContext } from '../../services/ingredients-context';
 
 const BurgerIngredients = () => {
@@ -55,10 +53,6 @@ const BurgerIngredients = () => {
            
         </section>
    );      
-}
-
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes)
 }
 
 export default BurgerIngredients;

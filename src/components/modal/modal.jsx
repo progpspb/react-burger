@@ -5,20 +5,23 @@ import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import PropTypes from 'prop-types';
 
-const Modal = ({ title, children, onClose, isOpen }) => {
+const Modal = ({ title, children, onClose}) => {
 
     useEffect(() => {
+
+        function closeModal(event) {
+            if (event.key === "Escape") {
+                onClose();
+            }
+        };
+
         document.addEventListener('keydown', closeModal);
+
         return () => {
             document.removeEventListener('keydown', closeModal);
         }
-    });
 
-    function closeModal(event) {
-        if (event.key === "Escape") {
-            onClose();
-        }
-    };
+    });
       
     return createPortal(
         <>

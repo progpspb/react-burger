@@ -4,8 +4,6 @@ import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktiku
 import Modal from '../modal/modal';
 import useModal from '../../hooks/useModal.js';
 import OrderDetails from '../order-details/order-details';
-import PropTypes from 'prop-types';
-import ingredientPropTypes from '../../prop-types/ingredient.types.jsx';
 import { IngredientsContext } from '../../services/ingredients-context';
 import { createOrder } from '../../utils/api';
 
@@ -140,10 +138,6 @@ const BurgerConstructor = () => {
         </section>
 
     );    
-}
-
-BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes)
 }
 
 export default BurgerConstructor;
