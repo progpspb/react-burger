@@ -6,6 +6,7 @@ import useModal from '../../hooks/useModal.js';
 import OrderDetails from '../order-details/order-details';
 import { IngredientsContext } from '../../services/ingredients-context';
 import { createOrder } from '../../utils/api';
+import loaderImg from '../../images/loader.svg';
 
 function setTotalPrice(state, action) {
     switch (action.type) {
@@ -24,6 +25,8 @@ const BurgerConstructor = () => {
     const [ totalPrice, totalPriceDispatcher] = useReducer(setTotalPrice, 0);
     const [ orderDetails, setOrderDetails] = useState(null);
     const { isModalOpen, openModal, closeModal } = useModal(false);
+    const [ isLoading, setLoading ] = useState(false);
+    const [ isError, setError ] = useState(false);
 
     const burger = useMemo(() => {
 
@@ -61,14 +64,18 @@ const BurgerConstructor = () => {
             burger.bun._id,
         ];
 
+        setLoading(true);
+        openModal();
+
         const sendOrder = async ( data ) => {
             try {
                 const result = await createOrder( data );
                 if(result.success) {
-                    setOrderDetails(result.order);
-                    openModal();
+                    setOrderDetails(result.order); 
+                    setLoading(false);                   
                 } else {
-                    console.error('Произошла ошибка при создании заказа');
+                    setError('Произошла ошибка при создании заказа');
+                    setLoading(false);                   
                 }
             } catch (error) {
                 console.error(error)
@@ -129,10 +136,22 @@ const BurgerConstructor = () => {
                 <Button htmlType="button" type="primary" size="large" onClick={() => onCreateOrder(burger)}>Оформить заказ</Button>
             </div>
 
-            {isModalOpen && (
+            {isLoading ? 
+                (
+                <Modal title = "Ваш заказ создается..." onClose = { closeModal } >
+                    <div className={styles.order_loading}><img src={loaderImg} alt="loader" align="center" /></div>
+                </Modal> 
+                ) : 
+            orderDetails && isModalOpen ? 
+                (
                 <Modal onClose = { closeModal }>
                     <OrderDetails order = {orderDetails} />
-                </Modal>
+                </Modal> 
+                ) :
+            isError && (
+                <Modal onClose = { closeModal }>
+                    <div className={styles.order_loading}>{isError}</div>
+                </Modal>              
             )}
 
         </section>
