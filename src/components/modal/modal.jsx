@@ -21,18 +21,18 @@ const Modal = ({ title, children, onClose}) => {
             document.removeEventListener('keydown', closeModal);
         }
 
-    });
+    },[onClose]);
       
     return createPortal(
         <>
         <div className={styles.modal}>
             <div className={styles.title}>
                 {title}
-                <span className={styles.close}><CloseIcon type="primary" onClick={() => onClose()} /></span>
+                <span className={styles.close}><CloseIcon type="primary" onClick={onClose} /></span>
             </div>
             <div className={styles.body}>{children}</div>
         </div>
-        <ModalOverlay onClose = {()=>onClose()}  />
+        <ModalOverlay onClose = {onClose}  />
         </>,
         document.getElementById("modal")        
     );

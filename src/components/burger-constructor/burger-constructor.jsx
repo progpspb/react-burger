@@ -71,15 +71,15 @@ const BurgerConstructor = () => {
             try {
                 const result = await createOrder( data );
                 if(result.success) {
-                    setOrderDetails(result.order); 
-                    setLoading(false);                   
+                    setOrderDetails(result.order);                                       
                 } else {
-                    setError('Произошла ошибка при создании заказа');
-                    setLoading(false);                   
+                    setError('Произошла ошибка при создании заказа');                
                 }
             } catch (error) {
                 console.error(error)
-            }  
+            } finally {
+                setLoading(false);
+            }
         }
 
         sendOrder(ids);
