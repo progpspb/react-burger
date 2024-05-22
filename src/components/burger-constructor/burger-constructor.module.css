@@ -1,3 +1,11 @@
+.constructor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 572px;
+    min-height: 300px;
+}
+
 .order_items {
     display: flex;
     flex-direction: column;

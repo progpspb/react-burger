@@ -1,6 +1,6 @@
 const apiUrl = "https://norma.nomoreparties.space/api";
 
-export const getIngredients = async () => {
+export const loadIngredients = async () => {
     return sendRequest('/ingredients');
 }
 
