@@ -9,10 +9,10 @@ export const getBurgerBun = (state) => state.burger.bun;
 export const getBurgerIngredients =(state) => state.burger.ingredients;
 
 export const setTotalPrice = (state) => {
-    const bun = getBurgerBun(state);
+    const bun = state.burger.bun;    
     const bunPrice = bun ? bun.price * 2 : 0;
 
-    return state.ingredientsConstructor.ingredients.reduce((acc, item) => {
+    return state.burger.ingredients.reduce((acc, item) => {
         return acc + item.price;
     }, bunPrice);
 }

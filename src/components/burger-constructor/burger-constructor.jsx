@@ -9,17 +9,16 @@ import OrderDetails from '../order-details/order-details';
 import { useDrop } from 'react-dnd';
 import { createOrder } from '../../utils/api';
 import { useSelector, useDispatch } from 'react-redux';
-import { getBurgerBun, getBurgerIngredients } from '../../services/selectors';
+import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services/selectors';
 import { addBun, addIngredient, moveIngredient, deleteIngredient} from '../../services/actions/burger-constructor.js';
 
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
 
-    const totalPrice = 0;
-
     const bun = useSelector(getBurgerBun);
     const ingredients = useSelector(getBurgerIngredients);
+    const totalPrice = useSelector(setTotalPrice);
 
     const [ orderDetails, setOrderDetails] = useState(null);
     const { isModalOpen, openModal, closeModal } = useModal(false);
@@ -45,12 +44,12 @@ const BurgerConstructor = () => {
         dispatch(deleteIngredient(uuid));
     }
 
-    const onCreateOrder = (burger) => {
+    const onCreateOrder = () => {
 
         const ids = [
-            burger.bun._id,
-            ...burger.items.map((item) => item._id),
-            burger.bun._id,
+            bun._id,
+            ...ingredients.map((item) => item._id),
+            bun._id,
         ];
 
         setLoading(true);

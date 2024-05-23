@@ -30,7 +30,14 @@ const BurgerIngredients = () => {
     };
 
     useEffect(() => {
-        const handleScroll = (tab) => setCurrentTab(tab);
+        const handleScroll = () => {
+            const offsetTop = 300;
+            ingredientsCollection.forEach((item) => {                
+                const tab = document.getElementById(item.type);
+                const pos = tab.getBoundingClientRect();
+                if (pos.top <= offsetTop) setCurrentTab(item.type);
+            });
+        }
         const scrollTab = document.getElementById('scroll_tab');
         scrollTab.addEventListener('scroll', handleScroll);
         return () => {
