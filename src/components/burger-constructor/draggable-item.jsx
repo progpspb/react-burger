@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useDrag, useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 
-const DraggableItem = ({ children, index, moveElement, className }) => {
+const DraggableItem = ({ children, index, moveElement }) => {
 
     const ref = useRef(null);
 
@@ -53,8 +53,7 @@ const DraggableItem = ({ children, index, moveElement, className }) => {
 DraggableItem.propTypes = {
     children: PropTypes.node.isRequired,
     index: PropTypes.number.isRequired,
-    moveElement: PropTypes.func.isRequired,
-    className: PropTypes.string,
+    moveElement: PropTypes.func.isRequired
 }
 
 export default DraggableItem;
