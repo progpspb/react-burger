@@ -36,13 +36,7 @@ const BurgerConstructor = () => {
         }
     });
 
-    const moveItem = (dragIndex, hoverIndex) => {
-        dispatch(moveIngredient(dragIndex, hoverIndex));
-    }
 
-    const deleteItem = (uuid) => {
-        dispatch(deleteIngredient(uuid));
-    }
 
     const onCreateOrder = () => {
 
@@ -74,6 +68,14 @@ const BurgerConstructor = () => {
     };
 
     const renderItem = useCallback((ingredient, index) => {
+        const moveItem = (dragIndex, hoverIndex) => {
+            dispatch(moveIngredient(dragIndex, hoverIndex));
+        }
+    
+        const deleteItem = (uuid) => {
+            dispatch(deleteIngredient(uuid));
+        }
+
         return (
             <div key={ingredient.uuid}>
                 <DraggableItem index={index} moveElement={moveItem} className={styles.order_item + ' mr-2'}>
@@ -87,7 +89,7 @@ const BurgerConstructor = () => {
                 </DraggableItem>
             </div>
         )
-    }, []);
+    },[dispatch]);
     
     return (
 
@@ -135,7 +137,7 @@ const BurgerConstructor = () => {
                     {totalPrice}
                     <CurrencyIcon type="primary" className="text text_type_digits-medium"/>
                 </span>
-                <Button htmlType="button" type="primary" size="large" onClick={() => onCreateOrder()}>Оформить заказ</Button>
+                <Button htmlType="button" type="primary" size="large" onClick={() => onCreateOrder()} disabled={(!bun || ingredients.length === 0)}>Оформить заказ</Button>
             </div>
 
             {isLoading ? 

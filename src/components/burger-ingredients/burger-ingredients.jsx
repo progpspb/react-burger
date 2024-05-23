@@ -15,11 +15,11 @@ const BurgerIngredients = () => {
     const sauce = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]); 
     const main = useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
 
-    const ingredientsCollection = [
+    const ingredientsCollection = useMemo(() => [
         {name:'Булки',type:'bun','items':bun}, 
         {name:'Соусы',type:'sauce','items':sauce}, 
         {name:'Начинки',type:'main','items':main}
-    ];
+    ], [bun, sauce, main]);
 
     const changeTab = (tab) => {
         setCurrentTab(tab);
@@ -43,7 +43,7 @@ const BurgerIngredients = () => {
         return () => {
             scrollTab.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [ingredientsCollection]);
 
     return (
 

@@ -1,19 +1,28 @@
 import { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredientsLoading, getIngredientsError } from '../../services/selectors';
 import { getAllIngredients } from '../../services/actions/burger-ingredients.js';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { MainPage, NotFoundPage, IngredientPage } from '../../pages';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 
-const App = () => {
+function App() {
 
+    const location = useLocation();
+    const navigate = useNavigate();
+    
     const isLoading = useSelector(getIngredientsLoading);
     const isError = useSelector(getIngredientsError);
     const dispatch = useDispatch();
+
+    const state = location.state;
+
+    function closeModal() {
+        navigate(-1);
+    }
 
     useEffect( () => {
         dispatch( getAllIngredients() );
@@ -23,15 +32,27 @@ const App = () => {
         <>
             <AppHeader />
             <main className={styles.main}>
-                {!isError && !isLoading ? (
-                    <DndProvider backend={HTML5Backend}>
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                    </DndProvider>
-                ) : (
-                    <p>{isError ? 'Произошла ошибка загрузки данных' : 'Загрузка данных'}</p>
-                )}                
-            </main>
+            {!isError && !isLoading ? (
+                <>
+                <Routes location={state?.backgroundLocation || location}>                
+                    <Route path='/' element={<MainPage />} />
+                    <Route path='*' element={<NotFoundPage />} />
+                    <Route path='/ingredient/:id' element={<IngredientPage/>}/>      
+                </Routes>           
+            
+                {state?.backgroundLocation && (
+                    <Routes>
+                        <Route path='/ingredient/:id' element={
+                            <Modal onClose={closeModal} title={"Детали ингридиента"}>
+                                <IngredientDetails/>
+                            </Modal>}/>
+                    </Routes>
+                )}
+                </>
+            ) : (
+                <p>{isError ? 'Произошла ошибка загрузки данных' : 'Загрузка данных'}</p>
+            )}
+            </main> 
         </>
     )
 }

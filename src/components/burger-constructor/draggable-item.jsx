@@ -22,7 +22,7 @@ const DraggableItem = ({ children, index, moveElement }) => {
 
             if (!ref.current) return;
             
-            const dragIndex = item.dragIndex;
+            const dragIndex = item.index;
             const hoverIndex = index;
 
             if (dragIndex === hoverIndex) return;
