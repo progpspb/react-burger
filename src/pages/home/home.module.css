@@ -1,0 +1,5 @@
+.main {
+    display: grid;    
+    justify-content: space-around;
+    grid-template-columns: repeat(2, 600px);
+}

@@ -1,0 +1,18 @@
+.profile {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    max-width: 1280px;
+    margin: 120px auto 0 auto;
+    gap: 60px;
+}
+
+.links {
+    display: grid;
+    grid-template-rows: repeat(3, 64px);
+}
+
+.text {
+    composes: text text_type_main-small from global;
+    margin: 80px 0 0;
+    color: #8585AD;
+}

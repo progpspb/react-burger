@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import Ingredient from '../ingredient/ingredient';
+import Ingredient from './ingredient/ingredient';
 import { useSelector } from 'react-redux';
 import { getIngredients } from '../../services/selectors';
 

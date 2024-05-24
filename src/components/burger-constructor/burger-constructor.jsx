@@ -68,6 +68,7 @@ const BurgerConstructor = () => {
     };
 
     const renderItem = useCallback((ingredient, index) => {
+        
         const moveItem = (dragIndex, hoverIndex) => {
             dispatch(moveIngredient(dragIndex, hoverIndex));
         }
@@ -93,12 +94,12 @@ const BurgerConstructor = () => {
     
     return (
 
-        <section className='pt-25 pb-13 pl-4'>
-            <div ref={dropRef} className={styles.constructor}>
+        <section className='mt-25 pb-13 pl-4'>
+            <div ref={dropRef} className={styles.constructor + ' pb-4 pt-4'}>
 
                 {bun && (
-                <div className={styles.order_items + ' mt-25 mb-4 pl-4'}>
-                    <div className = {styles.order_item + ' ml-8 mr-2'}>
+                <div className={styles.order_items + ' mt-2 mb-2 pl-4'}>
+                    <div className = {styles.order_item + ' ml-6 mr-2'}>
                         <ConstructorElement 
                             text = {bun.name + '(верх)'}
                             price = {bun.price} 
@@ -117,8 +118,8 @@ const BurgerConstructor = () => {
                 </div>
 
                 {bun && (
-                <div className={styles.order_items + ' mt-4 pl-4'}>
-                    <div className = {styles.order_item + ' ml-8 mr-2'}>
+                <div className={styles.order_items + ' mt-2 mb-2 pl-4'}>
+                    <div className = {styles.order_item + ' ml-6 mr-2'}>
                         <ConstructorElement 
                             text = {bun.name + ' (низ)'}
                             price = {bun.price} 
