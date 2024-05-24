@@ -1,3 +1,12 @@
+.constructor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 572px;
+    min-height: 600px;
+    border: 1px dashed #8585AD;
+}
+
 .order_items {
     display: flex;
     flex-direction: column;
@@ -41,4 +50,9 @@
     display: flex;
     align-items: center;
     gap: 8px;    
+}
+
+.order_loading {
+    margin: 50px auto 0;
+    text-align: center;
 }

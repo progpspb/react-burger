@@ -1,35 +1,60 @@
-import {useState, useEffect} from 'react';
+import { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { getIngredients } from '../../utils/api';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredientsLoading, getIngredientsError } from '../../services/selectors';
+import { getAllIngredients } from '../../services/actions/burger-ingredients.js';
+import { MainPage, NotFoundPage, IngredientPage } from '../../pages';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 
-const App = () => {    
+function App() {
 
-    const [ingredients, setIngredients] = useState([]);
+    const location = useLocation();
+    const navigate = useNavigate();
     
-    useEffect(() => {
-        const fetchIngredientsData = async () => {
-            try {
-                const result = await getIngredients();
-                setIngredients(result.data);
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        fetchIngredientsData();
-    },[]);
+    const isLoading = useSelector(getIngredientsLoading);
+    const isError = useSelector(getIngredientsError);
+    const dispatch = useDispatch();
+
+    const state = location.state;
+
+    function closeModal() {
+        navigate(-1);
+    }
+
+    useEffect( () => {
+        dispatch( getAllIngredients() );
+    }, [ dispatch ]);
 
     return (
         <>
             <AppHeader />
             <main className={styles.main}>
-                <BurgerIngredients ingredients = {ingredients}/>
-                <BurgerConstructor ingredients = {ingredients} />
-            </main>
+            {!isError && !isLoading ? (
+                <>
+                <Routes location={state?.backgroundLocation || location}>                
+                    <Route path='/' element={<MainPage />} />
+                    <Route path='*' element={<NotFoundPage />} />
+                    <Route path='/ingredient/:id' element={<IngredientPage/>}/>      
+                </Routes>           
+            
+                {state?.backgroundLocation && (
+                    <Routes>
+                        <Route path='/ingredient/:id' element={
+                            <Modal onClose={closeModal} title={"Детали ингридиента"}>
+                                <IngredientDetails/>
+                            </Modal>}/>
+                    </Routes>
+                )}
+                </>
+            ) : (
+                <p>{isError ? 'Произошла ошибка загрузки данных' : 'Загрузка данных'}</p>
+            )}
+            </main> 
         </>
-    );
+    )
 }
 
 export default App;

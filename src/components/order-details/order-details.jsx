@@ -1,15 +1,15 @@
 import styles from './order-details.module.css';
-import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import doneImg from '../../images/done.png';
 
 const OrderDetails = ({order}) => {
     return (
         <div className={styles.details}>
             <div className={styles.sum + 'text text_type_digits-large'}>{order.number}</div>
-            <div className='text text_type_main-medium mt-8'>{order.id}</div>
-            <div className='mt-15 mb-15'><CheckMarkIcon type="primary" /></div>
-            <div className='text text_type_main-default mb-2'>{order.status}</div>
-            <div className='text text_type_main-default text_color_inactive mb-30'>{order.message}</div>
+            <div className='text text_type_main-medium mt-8'>идентификатор заказа</div>
+            <div className='mt-15 mb-15'><img src={doneImg} alt='done' width="120" /></div>
+            <div className='text text_type_main-default mb-2'>Ваш заказ начали готовить</div>
+            <div className='text text_type_main-default text_color_inactive mb-30'>Дождитесь готовности на орбитальной станции</div>
         </div>
     );
 };

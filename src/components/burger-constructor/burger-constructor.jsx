@@ -1,92 +1,166 @@
+import { useState, useCallback } from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import loaderImg from '../../images/loader.svg';
 import Modal from '../modal/modal';
 import useModal from '../../hooks/useModal.js';
+import DraggableItem from './draggable-item.jsx';
 import OrderDetails from '../order-details/order-details';
-import PropTypes from 'prop-types';
-import ingredientPropTypes from '../../prop-types/ingredient.types.jsx';
+import { useDrop } from 'react-dnd';
+import { createOrder } from '../../utils/api';
+import { useSelector, useDispatch } from 'react-redux';
+import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services/selectors';
+import { addBun, addIngredient, moveIngredient, deleteIngredient} from '../../services/actions/burger-constructor.js';
 
-const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = () => {
 
+    const dispatch = useDispatch();
+
+    const bun = useSelector(getBurgerBun);
+    const ingredients = useSelector(getBurgerIngredients);
+    const totalPrice = useSelector(setTotalPrice);
+
+    const [ orderDetails, setOrderDetails] = useState(null);
     const { isModalOpen, openModal, closeModal } = useModal(false);
+    const [ isLoading, setLoading ] = useState(false);
+    const [ isError, setError ] = useState(false);
+
+    const [, dropRef] = useDrop({
+        accept: "ingredient",
+        drop(ingredient) {
+            if (ingredient.type === 'bun') {
+                dispatch(addBun(ingredient));
+            } else {
+                dispatch(addIngredient(ingredient));
+            }
+        }
+    });
+
+
+
+    const onCreateOrder = () => {
+
+        const ids = [
+            bun._id,
+            ...ingredients.map((item) => item._id),
+            bun._id,
+        ];
+
+        setLoading(true);
+        openModal();
+
+        const sendOrder = async ( data ) => {
+            try {
+                const result = await createOrder( data );
+                if(result.success) {
+                    setOrderDetails(result.order);                                       
+                } else {
+                    setError('Произошла ошибка при создании заказа');                
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        sendOrder(ids);
+    };
+
+    const renderItem = useCallback((ingredient, index) => {
+        const moveItem = (dragIndex, hoverIndex) => {
+            dispatch(moveIngredient(dragIndex, hoverIndex));
+        }
+    
+        const deleteItem = (uuid) => {
+            dispatch(deleteIngredient(uuid));
+        }
+
+        return (
+            <div key={ingredient.uuid}>
+                <DraggableItem index={index} moveElement={moveItem} className={styles.order_item + ' mr-2'}>
+                    <DragIcon type="primary"/>
+                    <ConstructorElement
+                        text={ingredient.name}
+                        price={ingredient.price}
+                        thumbnail={ingredient.image}
+                        handleClose={() => deleteItem(ingredient.uuid)}
+                    />
+                </DraggableItem>
+            </div>
+        )
+    },[dispatch]);
     
     return (
 
-        <section>
+        <section className='pt-25 pb-13 pl-4'>
+            <div ref={dropRef} className={styles.constructor}>
 
-            <div className={styles.order_items + ' mt-25 mb-4 pl-4'}>
-                <div className = {styles.order_item + ' mr-2'}>
-                    <span className='ml-6'></span>
-                    <ConstructorElement 
-                        text = "Краторная булка N-200i (верх)"
-                        price = {1255} 
-                        thumbnail = "https://code.s3.yandex.net/react/code/bun-02.png" 
-                        isLocked = {true}
-                        type = "top"
-                    />
+                {bun && (
+                <div className={styles.order_items + ' mt-25 mb-4 pl-4'}>
+                    <div className = {styles.order_item + ' ml-8 mr-2'}>
+                        <ConstructorElement 
+                            text = {bun.name + '(верх)'}
+                            price = {bun.price} 
+                            thumbnail = {bun.image} 
+                            isLocked = {true}
+                            type = "top"
+                        />
+                    </div>
                 </div>
-            </div>
+                )}          
 
-            <div className={styles.order_items_scroll + ' pl-4'}>
-                {ingredients.map(ingredient => {
-                    if (ingredient.type !== 'bun') {
-                        return (                        
-                            <div key = {ingredient._id} className = {styles.order_item + ' mr-2'}>
-                                <DragIcon type="primary" />
-                                <ConstructorElement 
-                                    text = {ingredient.name} 
-                                    price = {ingredient.price} 
-                                    thumbnail = {ingredient.image}   
-                                />
-                            </div>
-                        )
-                    } else {
-                        return null;
-                    }
-                })}
-            </div>
-
-            <div className={styles.order_items + ' mt-4 pl-4'}>
-                <div className = {styles.order_item + ' mr-2'}>
-                    <span className='ml-6'></span>
-                    <ConstructorElement 
-                        text = "Краторная булка N-200i (низ)"
-                        price = {1255} 
-                        thumbnail = "https://code.s3.yandex.net/react/code/bun-02.png" 
-                        isLocked = {true}
-                        type = "bottom"
-                    />
+                <div className={styles.order_items_scroll + ' pl-4'}>
+                    {ingredients.map(((ingredient, index) => {                        
+                        return renderItem(ingredient, index)
+                    }))}
                 </div>
-            </div>            
+
+                {bun && (
+                <div className={styles.order_items + ' mt-4 pl-4'}>
+                    <div className = {styles.order_item + ' ml-8 mr-2'}>
+                        <ConstructorElement 
+                            text = {bun.name + ' (низ)'}
+                            price = {bun.price} 
+                            thumbnail = {bun.image} 
+                            isLocked = {true}
+                            type = "bottom"
+                        />
+                    </div>
+                </div>     
+            )}   
+
+            </div>             
 
             <div className={styles.order_footer + ' mt-10 mr-4'}>
                 <span className={styles.order_total + ' text text_type_digits-medium mr-10'}>
-                    {1500}
+                    {totalPrice}
                     <CurrencyIcon type="primary" className="text text_type_digits-medium"/>
                 </span>
-                <Button htmlType="button" type="primary" size="large" onClick={() => openModal()}>Оформить заказ</Button>
+                <Button htmlType="button" type="primary" size="large" onClick={() => onCreateOrder()} disabled={(!bun || ingredients.length === 0)}>Оформить заказ</Button>
             </div>
 
-            {isModalOpen && (
+            {isLoading ? 
+                (
+                <Modal title = "Ваш заказ создается..." onClose = { closeModal } >
+                    <div className={styles.order_loading}><img src={loaderImg} alt="loader" align="center" /></div>
+                </Modal> 
+                ) : 
+            orderDetails && isModalOpen ? 
+                (
                 <Modal onClose = { closeModal }>
-                    <OrderDetails 
-                        order = {{
-                            number: '034536', 
-                            id: 'идентификатор заказа', 
-                            status: 'Ваш заказ начали готовить', 
-                            message: 'Дождитесь готовности на орбитальной станции'
-                        }}
-                    />
-                </Modal>
+                    <OrderDetails order = {orderDetails} />
+                </Modal> 
+                ) :
+            isError && (
+                <Modal onClose = { closeModal }>
+                    <div className={styles.order_loading}>{isError}</div>
+                </Modal>              
             )}
 
         </section>
 
     );    
-}
-
-BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
 
 export default BurgerConstructor;

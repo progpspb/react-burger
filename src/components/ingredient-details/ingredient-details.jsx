@@ -1,7 +1,15 @@
 import styles from './ingredient-details.module.css';
 import ingredientPropTypes from '../../prop-types/ingredient.types.jsx';
+import { useParams } from "react-router";
+import { useSelector } from 'react-redux';
+import { getIngredients } from '../../services/selectors';
 
-const IngredientDetails = ({ ingredient }) => {
+function IngredientDetails() {
+
+  const { id } = useParams();
+  const ingredients = useSelector(getIngredients);
+  const ingredient = ingredients.find(ingredient => ingredient._id === id);
+
   return (
     <div className={styles.details}>
       <img width="480" height="240" className='mb-4' src={ingredient.image_large} alt={ingredient.name} />
