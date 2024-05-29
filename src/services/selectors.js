@@ -16,3 +16,7 @@ export const setTotalPrice = (state) => {
         return acc + item.price;
     }, bunPrice);
 }
+
+// User
+export const getUser =(state) => state.auth.user;
+export const isAuthorized =(state) => state.auth.isAuthorized;

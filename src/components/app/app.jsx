@@ -8,6 +8,7 @@ import { getAllIngredients } from '../../services/actions/burger-ingredients.js'
 import { HomePage, NotFoundPage, IngredientPage, LoginPage,  RegisterPage, ProfilePage, ForgotPassword, ResetPasswordPage } from '../../pages';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import { OnlyForAuthorized, OnlyForGuest} from '../protected-route/protected-route';
 
 function App() {
 
@@ -37,11 +38,11 @@ function App() {
                 <Routes location={background || location}>                
                     <Route path='/' element={<HomePage />} />
                     <Route path='*' element={<NotFoundPage />} />
-                    <Route path='/login' element={<LoginPage/>}/>
-                    <Route path='/register' element={<RegisterPage/>}/>
-                    <Route path='/forgot-password' element={<ForgotPassword/>}/>
-                    <Route path='/reset-password' element={<ResetPasswordPage/>}/>
-                    <Route path='/profile' element={<ProfilePage/>}/>
+                    <Route path='/login' element={<OnlyForGuest component={<LoginPage/>}/>}/>
+                    <Route path='/register' element={<OnlyForGuest component={<RegisterPage/>}/>}/>
+                    <Route path='/forgot-password' element={<OnlyForGuest component={<ForgotPassword/>}/>}/>
+                    <Route path='/reset-password' element={<OnlyForGuest component={<ResetPasswordPage/>}/>}/>
+                    <Route path='/profile' element={<OnlyForAuthorized component={<ProfilePage/>}/>}/>
                     <Route path='/ingredients/:id' element={<IngredientPage/>}/>      
                 </Routes>           
             
