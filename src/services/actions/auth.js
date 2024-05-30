@@ -4,21 +4,12 @@ import { login, register, logout, forgotPassword, resetPassword, getUser, fetchW
 export const SET_USER_REQUEST = 'SET_USER_REQUEST';
 export const SET_USER_SUCCESS = 'SET_USER_SUCCESS';
 export const SET_USER_FAILED = 'SET_USER_FAILED';
-
-export const SET_USER = 'SET_USER';
 export const SET_AUTHORIZED = 'SET_AUTHORIZED';
-
-export const setUser = (user) => {
-  return {
-    type: SET_USER,
-    payload: user,
-  };
-};
 
 export const setAuthorized = (isAuth) => {
   return {
     type: SET_AUTHORIZED,
-    payload: isAuth,
+    payload: isAuth
   };
 };
 
@@ -35,23 +26,22 @@ export const authLogin = (email, password) => {
         });
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('refreshToken', res.refreshToken);
-        localStorage.removeItem('resetPassword');
     })
     .catch((error) => {
         dispatch({
             type: SET_USER_FAILED,
-            payload: error
+            payload: error.message
         })
     })
   }
 };
 
-export const authRegister = (values) => {
+export const authRegister = (email, password, name) => {
   return (dispatch) => {
     dispatch({
         type: SET_USER_REQUEST
     })
-    register(values)
+    register(email, password, name)
     .then((res) => {
         dispatch({
             type: SET_USER_SUCCESS,
@@ -63,7 +53,7 @@ export const authRegister = (values) => {
     .catch((error) => {
         dispatch({
             type: SET_USER_FAILED,
-            payload: error
+            payload: error.message
         })
     })
   }
@@ -73,11 +63,21 @@ export const authLogout = () => {
   return (dispatch) => {
     logout()
     .then(() => {
+      dispatch({
+        type: SET_USER_SUCCESS,
+        payload: null
+      });
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      dispatch(setUser(null));
-    });
-  };
+      dispatch(setAuthorized(false));
+    })
+    .catch((error) => {
+      dispatch({
+          type: SET_USER_FAILED,
+          payload: error.message,
+      })
+    })
+  }
 };
 
 export const authForgotPassword = (email) => {
@@ -114,12 +114,12 @@ export const checkUserAuth = () => {
     if (localStorage.getItem('accessToken')) {
       dispatch(getUser())
         .then((res) => {
-          dispatch(setUser({ ...res.user, password: '' }));
+          dispatch(setAuthorized(true));
         })
         .catch(() => {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
-          dispatch(setUser(null));
+          dispatch(setAuthorized(false));
         })
         .finally(() => dispatch(setAuthorized(true)));
     } else {

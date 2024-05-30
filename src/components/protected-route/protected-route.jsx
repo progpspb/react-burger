@@ -11,7 +11,7 @@ const ProtectedRoute = ({ component, needAuth = true }) => {
     const location = useLocation();
 
     if(!isAuth) {
-      //return null;
+      return null;
     }
   
     if (needAuth && user) {
@@ -31,7 +31,10 @@ ProtectedRoute.propTypes = {
   needAuth: PropTypes.bool
 }
 
-export const OnlyForAuthorized = ProtectedRoute;
+export const OnlyForAuthorized = ({ component }) => (
+  <ProtectedRoute component={component} />
+);
+
 export const OnlyForGuest = ({ component }) => (
     <ProtectedRoute component={component} needAuth={false}  />
 );

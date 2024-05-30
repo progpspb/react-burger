@@ -18,5 +18,8 @@ export const setTotalPrice = (state) => {
 }
 
 // User
-export const getUser =(state) => state.auth.user;
-export const isAuthorized =(state) => state.auth.isAuthorized;
+export const getUser = (state) => state.auth.user;
+export const isAuthorized = (state) => state.auth.isAuthorized;
+export const authIsLoading = state => state.auth.isLoading;
+export const authError = (state) => state.auth.isError;
+export const authErrMessage = (state) => state.auth.errMessage;

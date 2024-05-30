@@ -36,8 +36,6 @@ const BurgerConstructor = () => {
         }
     });
 
-
-
     const onCreateOrder = () => {
 
         const ids = [

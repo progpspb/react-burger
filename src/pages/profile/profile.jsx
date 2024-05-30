@@ -2,7 +2,6 @@ import styles from './profile.module.css';
 import { NavLink } from 'react-router-dom';
 
 export default function ProfilePage() {
-
     return (        
         <div className={styles.profile}>
             <div className={"pl-5"}>
