@@ -4,8 +4,9 @@ import AppHeader from '../app-header/app-header';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredientsLoading, getIngredientsError } from '../../services/selectors';
+import { getUser } from '../../services/actions/auth.js';
 import { getAllIngredients } from '../../services/actions/burger-ingredients.js';
-import { HomePage, NotFoundPage, IngredientPage, LoginPage,  RegisterPage, ProfilePage, ForgotPassword, ResetPasswordPage } from '../../pages';
+import { HomePage, NotFoundPage, IngredientPage, LoginPage,  RegisterPage, ProfilePage, ForgotPassword, ResetPasswordPage, ProfileEdit, ProfileOrders } from '../../pages';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { OnlyForAuthorized, OnlyForGuest} from '../protected-route/protected-route';
@@ -26,7 +27,8 @@ function App() {
     };
 
     useEffect( () => {
-        dispatch( getAllIngredients() );
+        dispatch( getAllIngredients() );        
+        dispatch( getUser() );
     }, [ dispatch ]);
 
     return (
@@ -42,7 +44,10 @@ function App() {
                     <Route path='/register' element={<OnlyForGuest component={<RegisterPage/>}/>}/>
                     <Route path='/forgot-password' element={<OnlyForGuest component={<ForgotPassword/>}/>}/>
                     <Route path='/reset-password' element={<OnlyForGuest component={<ResetPasswordPage/>}/>}/>
-                    <Route path='/profile' element={<OnlyForAuthorized component={<ProfilePage/>}/>}/>
+                    <Route path='/profile' element={<OnlyForAuthorized component={<ProfilePage/>}/>}>
+                        <Route path='' element={<OnlyForAuthorized component={<ProfileEdit />} />} />
+                        <Route path='orders' element={<OnlyForAuthorized component={<ProfileOrders />} />} />
+                    </Route>
                     <Route path='/ingredients/:id' element={<IngredientPage/>}/>      
                 </Routes>           
             

@@ -1,5 +1,5 @@
 import { sendRequest } from '../../utils/api';
-import { login, register, logout, forgotPassword, resetPassword, getUser, fetchWithRefresh } from '../../utils/auth';
+import { login, register, logout, forgotPassword, resetPassword, getUserData, fetchWithRefresh } from '../../utils/auth';
 
 export const SET_USER_REQUEST = 'SET_USER_REQUEST';
 export const SET_USER_SUCCESS = 'SET_USER_SUCCESS';
@@ -61,6 +61,9 @@ export const authRegister = (email, password, name) => {
 
 export const authLogout = () => {
   return (dispatch) => {
+    dispatch({
+      type: SET_USER_REQUEST
+    })
     logout()
     .then(() => {
       dispatch({
@@ -97,10 +100,27 @@ export const authRefreshToken = () => {
   return sendRequest('/auth/token', { body: { token } });
 };
 
-export const authGetUser = () => {
-  const accessToken = localStorage.getItem('accessToken');
-  const headers = { Authorization: accessToken };
-  return (dispatch) => fetchWithRefresh('/auth/user', { headers, method: 'GET' });
+export const getUser = () => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_USER_REQUEST
+    })
+    getUserData()
+    .then((res) => {
+      dispatch({
+        type: SET_USER_SUCCESS,
+        payload: res.user,
+      })
+      dispatch(setAuthorized(true));
+    })
+    .catch((error) => {
+      dispatch({
+          type: SET_USER_FAILED,
+          payload: error.message,
+      })
+      dispatch(setAuthorized(false));
+    })
+  }
 };
 
 export const authUpdateUser = (values) => {
@@ -112,7 +132,7 @@ export const authUpdateUser = (values) => {
 export const checkUserAuth = () => {
   return (dispatch) => {
     if (localStorage.getItem('accessToken')) {
-      dispatch(getUser())
+      dispatch(getUserData())
         .then((res) => {
           dispatch(setAuthorized(true));
         })

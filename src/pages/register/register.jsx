@@ -9,7 +9,7 @@ export default function RegisterPage() {
 
     const dispatch = useDispatch();
 
-    const { authError, authErrMessage } = useSelector(state => state.auth);
+    const { isError, errMessage } = useSelector(state => state.auth);
 
     const [values, setValue] = useState({email: '', password: '', name: ''});
 
@@ -43,14 +43,13 @@ export default function RegisterPage() {
                     value={values.password} 
                     onChange={onChange}
                 />
-                {authError && authErrMessage && <span className={styles.error + ' text text_type_main-small mt-1'}>{authErrMessage}!</span>}
+                {isError && errMessage && <span className={styles.error + ' text text_type_main-small mt-1'}>{errMessage}!</span>}
                 <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">Зарегистрироваться</Button>
             </form>
-            <div className={styles.footer}>
-                <p className={styles.footer_text}>Уже зарегистрированы?
-                    <Link to={'/login'}>
-                        <Button htmlType="button" type="secondary" size="medium" extraClass="ml-2">Войти</Button>
-                    </Link>
+            <div className='text text_type_main-default text_color_inactive'>
+                <p className={styles.footer_text}>
+                    Уже зарегистрированы?
+                    <Link to={'/login'} className={styles.footer_link}>Войти</Link>
                 </p>
             </div>
         </div>

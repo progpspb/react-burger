@@ -14,7 +14,7 @@ export const authUserReducer = (state = initialState, action) => {
         return { ...state, isLoading: true };
     }
     case SET_USER_SUCCESS: {
-        return { ...state, user: action.payload, isLoading: false };
+        return { ...state, user: action.payload, isLoading: false, errMessage: '' };
     }
     case SET_USER_FAILED: {
         return { ...state, user: null, isLoading: false, isError: true, errMessage: action.payload };

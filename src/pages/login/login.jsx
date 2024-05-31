@@ -9,9 +9,9 @@ export default function LoginPage() {
 
     const dispatch = useDispatch();
 
-    const { authError, authErrMessage } = useSelector(state => state.auth);
+    const { isError, errMessage } = useSelector(state => state.auth);
 
-    const [values, setValue] = useState({email: '', password: ''});
+    const [ values, setValue ] = useState({email: '', password: ''});
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
@@ -43,25 +43,19 @@ export default function LoginPage() {
                     name='password'
                     size='default'
                 />
-                {authError && authErrMessage && <span className={styles.error + ' text text_type_main-small mt-1'}>{authErrMessage}!</span>}
+                {isError && errMessage && <span className={styles.error + ' text text_type_main-small mt-1'}>{errMessage}!</span>}
                 <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
                     Войти                
                 </Button>
             </form>            
-            <div className={styles.footer}>
-                <p className={styles.footer_text}>Вы — новый пользователь? 
-                    <Link to={'/register'}>
-                        <Button htmlType="button" type="secondary" size="medium" extraClass="ml-2 pl-2">
-                            Зарегистрироваться
-                        </Button>
-                    </Link>
+            <div className='text text_type_main-default text_color_inactive'>
+                <p className={styles.footer_text}>
+                    Вы — новый пользователь? 
+                    <Link to={'/register'} className={styles.footer_link}>Зарегистрироваться</Link>
                 </p>
-                <p className={styles.footer_text}>Забыли пароль? 
-                    <Link to={'/forgot-password'}>
-                        <Button htmlType="button" type="secondary" size="medium" extraClass="ml-2">
-                            Восстановить пароль
-                        </Button>
-                    </Link>
+                <p className={styles.footer_text + ' mt-4'}>
+                    Забыли пароль? 
+                    <Link to={'/forgot-password'} className={styles.footer_link}>Восстановить пароль</Link>
                 </p>
             </div>
         </div>

@@ -59,7 +59,7 @@ export const logout = async () => {
 
 // получение данных профиля
 
-export const getUser = async () => {
+export const getUserData = async () => {
     const options = {
         method: 'GET',
         headers: {

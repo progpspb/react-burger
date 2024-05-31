@@ -4,7 +4,9 @@ import IngredientPage from "./ingredients/ingredients";
 import LoginPage from "./login/login";
 import RegisterPage from "./register/register";
 import ProfilePage from "./profile/profile";
+import ProfileEdit from "./profile/profile-edit";
+import ProfileOrders from "./profile/profile-orders";
 import ForgotPassword from "./forgot-password/forgot-password";
 import ResetPasswordPage from "./reset-password/reset-password";
 
-export { HomePage, NotFoundPage, IngredientPage, LoginPage,  RegisterPage, ProfilePage, ForgotPassword, ResetPasswordPage }
+export { HomePage, NotFoundPage, IngredientPage, LoginPage,  RegisterPage, ProfilePage, ForgotPassword, ResetPasswordPage, ProfileEdit, ProfileOrders }

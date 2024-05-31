@@ -11,6 +11,8 @@ import { createOrder } from '../../utils/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services/selectors';
 import { addBun, addIngredient, moveIngredient, deleteIngredient} from '../../services/actions/burger-constructor.js';
+import { getUser } from '../../services/selectors.js';
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
 
@@ -19,6 +21,9 @@ const BurgerConstructor = () => {
     const bun = useSelector(getBurgerBun);
     const ingredients = useSelector(getBurgerIngredients);
     const totalPrice = useSelector(setTotalPrice);
+
+    const user = useSelector(getUser);
+    const navigate = useNavigate();
 
     const [ orderDetails, setOrderDetails] = useState(null);
     const { isModalOpen, openModal, closeModal } = useModal(false);
@@ -37,6 +42,11 @@ const BurgerConstructor = () => {
     });
 
     const onCreateOrder = () => {
+        
+        if (!user) {
+            return navigate('/login');
+        }
+        
 
         const ids = [
             bun._id,

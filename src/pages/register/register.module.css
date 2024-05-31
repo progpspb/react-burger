@@ -17,13 +17,17 @@
     color: red;
 }
 
-.footer {
-    composes: text_type_main-default text_color_inactive from global;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.footer_text {
+    text-align: center;
 }
 
-.footer_text {
-    margin: 0;
+.footer_link {
+    text-decoration: none;
+    color: #4C4CFF;
+    margin-left: 20px;
+}
+
+.footer_link:hover {
+    color: #FFFFFF;
+    opacity: 0.9;
 }
