@@ -1,29 +1,24 @@
 import styles from './forgot-password.module.css';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useForm } from '../../hooks/useForm.js';
 import { forgotPassword } from '../../utils/auth.js';
 
 export default function ForgotPassword() {
 
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
+    const { values, handleChange } = useForm({email: ''});
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
         try {
-            forgotPassword(email);
+            forgotPassword(values.email);
             localStorage.setItem('resetPassword', true);
             navigate('/reset-password');
         } catch (err) {
             console.error(`Ошибка: ${err}`);
         }
-    }
-
-    const onChange = (e) => {
-        e.preventDefault();
-        setEmail(e.target.value)
     }
 
     return (
@@ -33,8 +28,8 @@ export default function ForgotPassword() {
             <EmailInput
                 type={'email'}
                 placeholder={'Укажите E-mail'}
-                onChange={onChange}
-                value={email}
+                onChange={handleChange}
+                value={values.email}
                 name={'email'}
                 size={'default'}
             />

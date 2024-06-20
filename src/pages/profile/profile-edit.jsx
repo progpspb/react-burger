@@ -1,7 +1,8 @@
 import styles from './profile.module.css';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../hooks/useForm.js';
 import { authUpdateUser } from '../../services/actions/auth.js';
 import { getUser } from '../../services/selectors.js';
 
@@ -11,18 +12,9 @@ export default function ProfileEdit() {
     const user = useSelector(getUser);
 
     const { isError, errMessage } = useSelector(state => state.auth); 
-
-    const [ values, setValue ] = useState({email: '', password: '', name: ''});
     const [ isChanged, setChanged ] = useState(false);
 
-    useEffect(()=> {
-        user && setValue({
-            ...user, 
-            name: user.name, 
-            email: user.email,
-            password: user.password
-        })
-    },[user]);
+    const { values, handleChange, setValues } = useForm({name: user.name, email: user.email, password: 'password'});
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
@@ -30,14 +22,8 @@ export default function ProfileEdit() {
         setChanged(false);
     }
 
-    const onChange = (e) => {
-        setValue({...values, [e.target.name]: e.target.value});
-        e.preventDefault();
-        setChanged(true);
-    }
-
     const cancelUpdate = (e) => {
-        setValue({
+        setValues({
             ...user, 
             name: user.name, 
             email: user.email,
@@ -50,23 +36,26 @@ export default function ProfileEdit() {
         <div className={styles.form_wrapper}>
             <form className={styles.form} onSubmit={handleOnSubmit}>
                 <Input 
-                    placeholder="Имя" 
-                    name="name" 
+                    type={'text'}
+                    placeholder={'Имя'}
+                    name={'name'}
                     value={values.name} 
-                    onChange={onChange}
-                    icon="EditIcon"
+                    onChange={handleChange}
+                    icon={'EditIcon'}
                 />
                 <EmailInput 
-                    name="email" 
+                    type={'email'}
+                    name={'email'}
                     value={values.email} 
-                    onChange={onChange}
-                    icon="EditIcon"
+                    onChange={handleChange}
+                    icon={'EditIcon'}
                 />
                 <PasswordInput 
-                    name="password" 
+                    type={'password'}
+                    name={'password'}
                     value={values.password} 
-                    onChange={onChange}
-                    icon="EditIcon"
+                    onChange={handleChange}
+                    icon={'EditIcon'}
                 />
                 {isError && errMessage && <span className={styles.error + ' text text_type_main-small mt-1'}>{errMessage}!</span>}
                 {isChanged &&

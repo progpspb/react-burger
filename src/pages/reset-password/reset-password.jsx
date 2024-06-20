@@ -1,14 +1,15 @@
 import styles from './reset-password.module.css';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useForm } from '../../hooks/useForm.js';
 import { resetPassword } from '../../utils/auth.js';
 
 export default function ResetPassword() {
 
     const navigate = useNavigate();
 
-    const [values, setValue] = useState({password: '', code: ''});
+    const { values, handleChange } = useForm({password: '', code: ''});
 
     useEffect(() => {
         if (!localStorage.getItem('resetPassword')) {
@@ -27,27 +28,23 @@ export default function ResetPassword() {
         }
     }
 
-    const onChange = e => {
-        e.preventDefault();
-        setValue({...values, [e.target.name]: e.target.value});
-    }
-
     return (
         <div className={styles.form_wrapper}>
         <h2>Восстановление пароля</h2>
         <form className={styles.form} onSubmit={handleOnSubmit}>
-            <Input
-                type='password'
+            <PasswordInput
+                type={'password'}
                 placeholder={'Введите новый пароль'}
-                onChange={onChange}
+                onChange={handleChange}
                 value={values.password}
                 name={'password'}
                 size={'default'}
             />
             <Input 
-                name="code" 
+                type={'text'}
+                name={'code'}
                 value={values.code} 
-                onChange={onChange}
+                onChange={handleChange}
                 placeholder={'Введите код из письма'}
             />
             <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">

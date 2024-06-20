@@ -10,7 +10,7 @@ import { useDrop } from 'react-dnd';
 import { createOrder } from '../../utils/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services/selectors';
-import { addBun, addIngredient, moveIngredient, deleteIngredient} from '../../services/actions/burger-constructor.js';
+import { addBun, addIngredient, moveIngredient, deleteIngredient, clearConstructor} from '../../services/actions/burger-constructor.js';
 import { getUser } from '../../services/selectors.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -61,7 +61,8 @@ const BurgerConstructor = () => {
             try {
                 const result = await createOrder( data );
                 if(result.success) {
-                    setOrderDetails(result.order);                                       
+                    setOrderDetails(result.order);
+                    dispatch(clearConstructor());                                       
                 } else {
                     setError('Произошла ошибка при создании заказа');                
                 }

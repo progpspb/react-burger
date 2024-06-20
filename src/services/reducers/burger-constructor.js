@@ -1,4 +1,4 @@
-import { ADD_BUN, ADD_INGREDIENT, MOVE_INGREDIENT, DELETE_INGREDIENT } from '../actions/burger-constructor';
+import { ADD_BUN, ADD_INGREDIENT, MOVE_INGREDIENT, DELETE_INGREDIENT, CLEAR_CONSTRUCTOR } from '../actions/burger-constructor';
 
 const initialState = {
   bun: null,
@@ -32,7 +32,12 @@ export const burgerConstructorReducer = (state = initialState, action) => {
           ...state, 
           ingredients: state.ingredients.filter(ingredient => ingredient.uuid !== action.payload.uuid)
         }
-      }    
+      }
+      case CLEAR_CONSTRUCTOR: {
+        return { 
+          ...initialState
+        }
+      }
       default:
         return state;
     }

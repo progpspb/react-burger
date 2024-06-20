@@ -1,28 +1,33 @@
 import styles from './app-header.module.css';
-import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { NavLink, useLocation } from 'react-router-dom';
 
-const AppHeader = (props) => {
+const AppHeader = () => {
+
+    const location = useLocation();
+    const curPage = location.pathname;
+
     return (
         <header className={styles.header}>
             <nav className={styles.navbar + ' pb-4 pt-4'}>
                 <div className={styles.nav_left }>
-                    <a href="/" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
+                    <NavLink to={'/'} className={curPage === '/' ? styles.nav_link_active : styles.nav_link}>
                         <BurgerIcon type="primary"/>
-                        <span className={styles.nav_link_active}>Конструктор</span>
-                    </a>
-                    <a href="!#" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
+                        <span>Конструктор</span>
+                    </NavLink>
+                    <NavLink to={'/orders'} className={curPage === '/orders' ? styles.nav_link_active : styles.nav_link}>
                         <ListIcon type="secondary"/>
                         <span>Лента заказов</span>
-                    </a>
+                    </NavLink>
                 </div>
                 <div className={styles.nav_center}>
                     <Logo />
                 </div>
                 <div className={styles.nav_right}>
-                    <a href="/profile" className={styles.nav_link + ' pl-5 pt-4 pr-5 pb-4'}>
+                    <NavLink to={'/profile'} className={curPage === '/profile' ? styles.nav_link_active : styles.nav_link}>
                         <ProfileIcon type="secondary"/>
                         <span>Личный кабинет</span>
-                    </a>
+                    </NavLink>
                 </div>
             </nav>              
         </header>

@@ -4,6 +4,7 @@ export const ADD_BUN = 'ADD_BUN';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 
 export const addBun = (bun) => {
     return { 
@@ -31,3 +32,7 @@ export const moveIngredient = (dragIndex, hoverIndex) => {
         payload: { dragIndex, hoverIndex } 
     }
 };
+
+export const clearConstructor = () => {
+    return { type: CLEAR_CONSTRUCTOR };
+}
