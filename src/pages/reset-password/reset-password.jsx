@@ -1,21 +1,30 @@
 import styles from './reset-password.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { authResetPassword } from '../../services/actions/auth.js';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { resetPassword } from '../../utils/auth.js';
 
 export default function ResetPassword() {
 
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [values, setValue] = useState({password: '', code: ''});
 
-    const step = true;
+    useEffect(() => {
+        if (!localStorage.getItem('resetPassword')) {
+            navigate('/forgot-password');
+        }
+    }, [navigate]);
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        dispatch(authResetPassword(values.password,values.code));
+        try {
+            resetPassword(values.password, values.code);
+            localStorage.removeItem('resetPassword');
+            navigate('/login');
+        } catch (err) {
+            console.error(`Ошибка: ${err}`);
+        }
     }
 
     const onChange = e => {
@@ -35,14 +44,12 @@ export default function ResetPassword() {
                 name={'password'}
                 size={'default'}
             />
-            {step && (
-                <Input 
-                    name="code" 
-                    value={values.code} 
-                    onChange={onChange}
-                    placeholder={'Введите код из письма'}
-                />
-            )}
+            <Input 
+                name="code" 
+                value={values.code} 
+                onChange={onChange}
+                placeholder={'Введите код из письма'}
+            />
             <Button htmlType="submit" type="primary" size="medium" extraClass="mb-20">
                 Сохранить                
             </Button>

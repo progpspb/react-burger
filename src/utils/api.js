@@ -17,16 +17,16 @@ export const createOrder = async (orderDetails) => {
     return sendRequest('/orders', options);
 }
 
+// общие функции
+
 export const checkReponse = (res) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 }
 
 export const sendRequest = (endpoint, options = null) => {
-
     return fetch(`${BURGER_API_URL}${endpoint}`, options)
         .then(checkReponse)
         .then(data => {
             return data;
         });
-
 }

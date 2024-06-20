@@ -1,5 +1,4 @@
-import { sendRequest } from '../../utils/api';
-import { login, register, logout, forgotPassword, resetPassword, getUserData, fetchWithRefresh } from '../../utils/auth';
+import { login, register, logout, getUserData, updateUserData } from '../../utils/auth';
 
 export const SET_USER_REQUEST = 'SET_USER_REQUEST';
 export const SET_USER_SUCCESS = 'SET_USER_SUCCESS';
@@ -83,23 +82,6 @@ export const authLogout = () => {
   }
 };
 
-export const authForgotPassword = (email) => {
-  return (dispatch) => {
-    forgotPassword(email);
-  }
-};
-
-export const authResetPassword = (values) => {
-  return (dispatch) => {
-    resetPassword(values);
-  }
-};
-
-export const authRefreshToken = () => {
-  const token = localStorage.getItem('refreshToken');
-  return sendRequest('/auth/token', { body: { token } });
-};
-
 export const getUser = () => {
   return (dispatch) => {
     dispatch({
@@ -123,10 +105,25 @@ export const getUser = () => {
   }
 };
 
-export const authUpdateUser = (values) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const headers = { Authorization: accessToken };
-  return (dispatch) => fetchWithRefresh('/auth/user', { headers, method: 'PATCH', body: values });
+export const authUpdateUser = (newValues) => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_USER_REQUEST
+    })
+    updateUserData(newValues)
+    .then((res) => {
+      dispatch({
+        type: SET_USER_SUCCESS,
+        payload: res.user,
+      })
+    })
+    .catch((error) => {
+      dispatch({
+          type: SET_USER_FAILED,
+          payload: error.message,
+      })
+    })
+  }
 };
 
 export const checkUserAuth = () => {

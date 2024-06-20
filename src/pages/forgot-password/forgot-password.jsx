@@ -2,20 +2,23 @@ import styles from './forgot-password.module.css';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { authForgotPassword } from '../../services/actions/auth.js';
+import { forgotPassword } from '../../utils/auth.js';
 
 export default function ForgotPassword() {
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        dispatch(authForgotPassword(email));
-        navigate('/reset-password');
+        try {
+            forgotPassword(email);
+            localStorage.setItem('resetPassword', true);
+            navigate('/reset-password');
+        } catch (err) {
+            console.error(`Ошибка: ${err}`);
+        }
     }
 
     const onChange = (e) => {

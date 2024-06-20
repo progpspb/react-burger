@@ -13,6 +13,7 @@ export default function ProfilePage() {
         e.preventDefault();
         dispatch(authLogout());
     }
+    
     return (        
         <div className={styles.profile}>
             <div className={"pl-5"}>

@@ -1,4 +1,4 @@
-import { BURGER_API_URL, sendRequest, checkReponse } from "./api.js";
+import { sendRequest } from "./api.js";
 
 // авторизация
 
@@ -39,7 +39,7 @@ export const resetPassword = async (password, token) => {
     const options = {
         method: 'POST',
         headers: {'Content-Type': 'application/json;charset=utf-8'},
-        body: JSON.stringify({ 'password': password, 'token': token })
+        body: JSON.stringify({'password': password, 'token': token})
     };
     return sendRequest('/password-reset/reset', options);
 }
@@ -54,7 +54,7 @@ export const logout = async () => {
             token: localStorage.getItem('refreshToken')
         })
     };
-    return sendRequest('/auth/logout', options);
+    return sendWithRefresh('/auth/logout', options);
 }
 
 // получение данных профиля
@@ -67,61 +67,55 @@ export const getUserData = async () => {
             'Authorization': localStorage.getItem('accessToken')
         }
     };
-    return sendRequest('/auth/user', options);
+    return sendWithRefresh('/auth/user', options);
 }
 
 // обновление данных профиля
 
-export const updateUser = async (data) => {
+export const updateUserData = async (data) => {
     const options = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Authorization': localStorage.getItem('accessToken')
         },
-        body: JSON.stringify({ data })
+        body: JSON.stringify(data)
     };
-    return sendRequest('/auth/user', options);
+    return sendWithRefresh('/auth/user', options);
 }
 
 
 // работа с токеном
 
-export const refreshToken = () => {
-    return fetch(`${BURGER_API_URL}/auth/token`, {
-        method: "POST",
+export const refreshToken = async () => {
+    const options = {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json;charset=utf-8",
+            "Content-Type": "application/json;charset=utf-8"
         },
         body: JSON.stringify({
-            token: localStorage.getItem("refreshToken"),
+            token: localStorage.getItem("refreshToken")
         }),
-    })
-    .then(checkReponse)
-     // !! Важно для обновления токена в мидлваре, чтобы запись
-     // была тут, а не в fetchWithRefresh
-    .then((refreshData) => {
-        if (!refreshData.success) {
-            return Promise.reject(refreshData);
-        }
-        localStorage.setItem("refreshToken", refreshData.refreshToken); 
-        localStorage.setItem("accessToken", refreshData.accessToken);
-        return refreshData;
-    });
-};
+    }    
+    const refreshData = await sendRequest('/auth/token', options);
+    if (!refreshData.success) {
+        throw refreshData;
+    }
+    localStorage.setItem('refreshToken', refreshData.refreshToken);
+    localStorage.setItem('accessToken', refreshData.accessToken);
+    return refreshData;
+}
   
-export const fetchWithRefresh = async (url, options) => {
+export const sendWithRefresh = async (url, options) => {
     try {
-        const res = await fetch(url, options);
-        return await checkReponse(res);
+        return await sendRequest(url, options);
     } catch (err) {
         if (err.message === "jwt expired") {
             const refreshData = await refreshToken(); //обновляем токен
             options.headers.authorization = refreshData.accessToken;
-            const res = await fetch(url, options); //повторяем запрос
-            return await checkReponse(res);
+            return sendRequest(url, options); //повторяем запрос
         } else {
             return Promise.reject(err);
         }
     }
-};
+}

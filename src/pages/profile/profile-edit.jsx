@@ -20,13 +20,13 @@ export default function ProfileEdit() {
             ...user, 
             name: user.name, 
             email: user.email,
-            //password: user.password
+            password: user.password
         })
     },[user]);
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        dispatch(authUpdateUser(values.name, values.email, values.password));
+        dispatch(authUpdateUser(values));
         setChanged(false);
     }
 
@@ -41,7 +41,7 @@ export default function ProfileEdit() {
             ...user, 
             name: user.name, 
             email: user.email,
-            //password: user.password
+            password: user.password
         })
         setChanged(false);
     }
