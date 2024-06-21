@@ -10,7 +10,9 @@ import { useDrop } from 'react-dnd';
 import { createOrder } from '../../utils/api';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services/selectors';
-import { addBun, addIngredient, moveIngredient, deleteIngredient} from '../../services/actions/burger-constructor.js';
+import { addBun, addIngredient, moveIngredient, deleteIngredient, clearConstructor} from '../../services/actions/burger-constructor.js';
+import { getUser } from '../../services/selectors.js';
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
 
@@ -19,6 +21,9 @@ const BurgerConstructor = () => {
     const bun = useSelector(getBurgerBun);
     const ingredients = useSelector(getBurgerIngredients);
     const totalPrice = useSelector(setTotalPrice);
+
+    const user = useSelector(getUser);
+    const navigate = useNavigate();
 
     const [ orderDetails, setOrderDetails] = useState(null);
     const { isModalOpen, openModal, closeModal } = useModal(false);
@@ -36,9 +41,12 @@ const BurgerConstructor = () => {
         }
     });
 
-
-
     const onCreateOrder = () => {
+        
+        if (!user) {
+            return navigate('/login');
+        }
+        
 
         const ids = [
             bun._id,
@@ -53,7 +61,8 @@ const BurgerConstructor = () => {
             try {
                 const result = await createOrder( data );
                 if(result.success) {
-                    setOrderDetails(result.order);                                       
+                    setOrderDetails(result.order);
+                    dispatch(clearConstructor());                                       
                 } else {
                     setError('Произошла ошибка при создании заказа');                
                 }
@@ -68,6 +77,7 @@ const BurgerConstructor = () => {
     };
 
     const renderItem = useCallback((ingredient, index) => {
+        
         const moveItem = (dragIndex, hoverIndex) => {
             dispatch(moveIngredient(dragIndex, hoverIndex));
         }
@@ -93,12 +103,12 @@ const BurgerConstructor = () => {
     
     return (
 
-        <section className='pt-25 pb-13 pl-4'>
-            <div ref={dropRef} className={styles.constructor}>
+        <section className='mt-25 pb-13 pl-4'>
+            <div ref={dropRef} className={styles.constructor + ' pb-4 pt-4'}>
 
                 {bun && (
-                <div className={styles.order_items + ' mt-25 mb-4 pl-4'}>
-                    <div className = {styles.order_item + ' ml-8 mr-2'}>
+                <div className={styles.order_items + ' mt-2 mb-2 pl-4'}>
+                    <div className = {styles.order_item + ' ml-6 mr-2'}>
                         <ConstructorElement 
                             text = {bun.name + '(верх)'}
                             price = {bun.price} 
@@ -117,8 +127,8 @@ const BurgerConstructor = () => {
                 </div>
 
                 {bun && (
-                <div className={styles.order_items + ' mt-4 pl-4'}>
-                    <div className = {styles.order_item + ' ml-8 mr-2'}>
+                <div className={styles.order_items + ' mt-2 mb-2 pl-4'}>
+                    <div className = {styles.order_item + ' ml-6 mr-2'}>
                         <ConstructorElement 
                             text = {bun.name + ' (низ)'}
                             price = {bun.price} 

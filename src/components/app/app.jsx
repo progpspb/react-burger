@@ -4,48 +4,60 @@ import AppHeader from '../app-header/app-header';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredientsLoading, getIngredientsError } from '../../services/selectors';
+import { getUser } from '../../services/actions/auth.js';
 import { getAllIngredients } from '../../services/actions/burger-ingredients.js';
-import { MainPage, NotFoundPage, IngredientPage } from '../../pages';
+import { HomePage, NotFoundPage, IngredientPage, LoginPage,  RegisterPage, ProfilePage, ForgotPassword, ResetPasswordPage, ProfileEdit, ProfileOrders } from '../../pages';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import { OnlyForAuthorized, OnlyForGuest} from '../protected-route/protected-route';
 
 function App() {
 
     const location = useLocation();
     const navigate = useNavigate();
+    const background = location.state && location.state.background;
     
     const isLoading = useSelector(getIngredientsLoading);
     const isError = useSelector(getIngredientsError);
     const dispatch = useDispatch();
 
-    const state = location.state;
-
-    function closeModal() {
+    const handleModalClose = () => {
+        // Возвращаемся к предыдущему пути при закрытии модалки
         navigate(-1);
-    }
+    };
 
     useEffect( () => {
-        dispatch( getAllIngredients() );
+        dispatch( getAllIngredients() );        
+        dispatch( getUser() );
     }, [ dispatch ]);
 
     return (
         <>
             <AppHeader />
-            <main className={styles.main}>
+            <main className={styles.container}>
             {!isError && !isLoading ? (
                 <>
-                <Routes location={state?.backgroundLocation || location}>                
-                    <Route path='/' element={<MainPage />} />
+                <Routes location={background || location}>                
+                    <Route path='/' element={<HomePage />} />
                     <Route path='*' element={<NotFoundPage />} />
-                    <Route path='/ingredient/:id' element={<IngredientPage/>}/>      
+                    <Route path='/login' element={<OnlyForGuest component={<LoginPage/>}/>}/>
+                    <Route path='/register' element={<OnlyForGuest component={<RegisterPage/>}/>}/>
+                    <Route path='/forgot-password' element={<OnlyForGuest component={<ForgotPassword/>}/>}/>
+                    <Route path='/reset-password' element={<OnlyForGuest component={<ResetPasswordPage/>}/>}/>
+                    <Route path='/profile' element={<OnlyForAuthorized component={<ProfilePage/>}/>}>
+                        <Route path='' element={<OnlyForAuthorized component={<ProfileEdit />} />} />
+                        <Route path='orders' element={<OnlyForAuthorized component={<ProfileOrders />} />} />
+                    </Route>
+                    <Route path='/ingredients/:id' element={<IngredientPage/>}/>      
                 </Routes>           
             
-                {state?.backgroundLocation && (
+                {background && (
                     <Routes>
-                        <Route path='/ingredient/:id' element={
-                            <Modal onClose={closeModal} title={"Детали ингридиента"}>
+                        <Route path='/ingredients/:id' element={
+                            <Modal onClose={handleModalClose} title={"Детали ингредиента"}>
                                 <IngredientDetails/>
-                            </Modal>}/>
+                            </Modal>
+                        }/>
                     </Routes>
                 )}
                 </>

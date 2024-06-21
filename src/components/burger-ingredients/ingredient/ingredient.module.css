@@ -28,3 +28,9 @@
     font-size: 16px;
     height: 48px;
 }
+
+.link {
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+}

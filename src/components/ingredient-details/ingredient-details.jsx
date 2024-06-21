@@ -4,11 +4,15 @@ import { useParams } from "react-router";
 import { useSelector } from 'react-redux';
 import { getIngredients } from '../../services/selectors';
 
-function IngredientDetails() {
+const IngredientDetails = () => {
 
   const { id } = useParams();
   const ingredients = useSelector(getIngredients);
-  const ingredient = ingredients.find(ingredient => ingredient._id === id);
+  const ingredient = ingredients.find(ingredient => ingredient._id === id); 
+  
+  if(!ingredient) {
+    return;
+  }
 
   return (
     <div className={styles.details}>
