@@ -1,9 +1,15 @@
 import { useState, useCallback } from "react";
 
+interface IuseModal {
+  isModalOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+}
+
 // кастомные хуки всегда должны начинаться с глагола `use`, чтобы реакт понял, что это хук. Он следит за их вызовами
-const useModal = () => {
+const useModal = (): IuseModal => {
   
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // `useCallback` нужен для того, чтобы зафиксировать ссылку на функцию. Таким образом уменьшится кол-во перерисовок компонента, куда будет передана эта функция
   const openModal = useCallback(() => {

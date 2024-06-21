@@ -4,16 +4,17 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from './ingredient/ingredient';
 import { useSelector } from 'react-redux';
 import { getIngredients } from '../../services/selectors';
+import { IngredientType } from '../../types/types';
 
 const BurgerIngredients = () => {
     
-    const [ currentTab, setCurrentTab ] = useState('bun');
+    const [ currentTab, setCurrentTab ] = useState<string>('bun');
 
     const ingredients = useSelector(getIngredients);
 
-    const bun = useMemo(() => ingredients.filter((item:any) => item.type === 'bun'), [ingredients]);
-    const sauce = useMemo(() => ingredients.filter((item:any) => item.type === 'sauce'), [ingredients]); 
-    const main = useMemo(() => ingredients.filter((item:any) => item.type === 'main'), [ingredients]);
+    const bun = useMemo(() => ingredients.filter((item: IngredientType) => item.type === 'bun'), [ingredients]);
+    const sauce = useMemo(() => ingredients.filter((item: IngredientType) => item.type === 'sauce'), [ingredients]); 
+    const main = useMemo(() => ingredients.filter((item: IngredientType) => item.type === 'main'), [ingredients]);
 
     const ingredientsCollection = useMemo(() => [
         {name:'Булки',type:'bun','items':bun}, 
@@ -21,7 +22,7 @@ const BurgerIngredients = () => {
         {name:'Начинки',type:'main','items':main}
     ], [bun, sauce, main]);
 
-    const changeTab = (tab:any) => {
+    const changeTab = (tab: string) => {
         setCurrentTab(tab);
         const scrollTab = document.getElementById(tab);
         if (scrollTab) {
@@ -33,12 +34,12 @@ const BurgerIngredients = () => {
         const handleScroll = () => {
             const offsetTop = 300;
             ingredientsCollection.forEach((item) => {                
-                const tab:any = document.getElementById(item.type);
+                const tab = document.getElementById(item.type) as HTMLElement;
                 const pos = tab.getBoundingClientRect();
                 if (pos.top <= offsetTop) setCurrentTab(item.type);
             });
         }
-        const scrollTab:any = document.getElementById('scroll_tab');
+        const scrollTab = document.getElementById('scroll_tab') as HTMLElement;
         scrollTab.addEventListener('scroll', handleScroll);
         return () => {
             scrollTab.removeEventListener('scroll', handleScroll);
@@ -58,15 +59,15 @@ const BurgerIngredients = () => {
             </div>
 
             <div id='scroll_tab' className={styles.tab_scroll + ' pb-10'}>
-                {ingredientsCollection.map((ingredientType, idx) => {
+                {ingredientsCollection.map((collectionType, idx) => {
                     return (
-                        <div id={ingredientType.type} key = {idx}>
-                            <h2 className='text text_type_main-large mt-10 mb-5'>{ingredientType.name}</h2>
+                        <div id={collectionType.type} key = {idx}>
+                            <h2 className='text text_type_main-large mt-10 mb-5'>{collectionType.name}</h2>
                             <div className={styles.items}>
-                            {ingredientType.items.map((item:any) => {
+                            {collectionType.items.map((item: IngredientType) => {
                                 return (
                                     <Ingredient
-                                        key = {item._id}
+                                        key = {item._id}                                       
                                         ingredient = {{...item}}
                                     />
                                 )

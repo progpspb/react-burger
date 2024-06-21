@@ -1,5 +1,5 @@
 import styles from './order-details.module.css';
-import { OrderDetailsType } from '../../types/ingredient';
+import { OrderDetailsType } from '../../types/types';
 import doneImg from '../../images/done.png';
 
 const OrderDetails = ({order} : OrderDetailsType) => {

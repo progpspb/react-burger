@@ -9,11 +9,11 @@ export default function RegisterPage() {
 
     const dispatch = useDispatch();
 
-    const { isError, errMessage } : any = useSelector<any>(state => state.auth);
+    const { isError, errMessage } = useSelector((state: any) => state.auth);
 
-    const { values, handleChange } : any  = useForm({email: '', password: '', name: ''});
+    const { values, handleChange } = useForm({email: '', password: '', name: ''});
 
-    const handleOnSubmit = (e:any) => {
+    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(authRegister(values.email, values.password, values.name) as any);
     }

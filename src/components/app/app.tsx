@@ -27,8 +27,10 @@ function App() {
     };
 
     useEffect( () => {
-        dispatch( getAllIngredients() as any );        
-        dispatch( getUser() as any );
+        //@ts-ignore
+        dispatch( getAllIngredients());
+        //@ts-ignore     
+        dispatch( getUser());
     }, [ dispatch ]);
 
     return (

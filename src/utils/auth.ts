@@ -105,7 +105,7 @@ export const refreshToken = async () => {
     localStorage.setItem('accessToken', refreshData.accessToken);
     return refreshData;
 }
-  
+
 export const sendWithRefresh = async (url : string, options : any) => {
     try {
         return await sendRequest(url, options);

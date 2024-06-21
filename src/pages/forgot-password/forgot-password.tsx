@@ -8,9 +8,9 @@ export default function ForgotPassword() {
 
     const navigate = useNavigate();
 
-    const { values, handleChange }:any = useForm({email: ''});
+    const { values, handleChange } = useForm({email: ''});
 
-    const handleOnSubmit = (e:any) => {
+    const handleOnSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         try {
             forgotPassword(values.email);

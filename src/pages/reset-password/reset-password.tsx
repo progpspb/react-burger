@@ -8,8 +8,7 @@ import { resetPassword } from '../../utils/auth';
 export default function ResetPassword() {
 
     const navigate = useNavigate();
-
-    const { values, handleChange } : any = useForm({password: '', code: ''});
+    const { values, handleChange } = useForm({password: '', code: ''});
 
     useEffect(() => {
         if (!localStorage.getItem('resetPassword')) {
@@ -17,7 +16,7 @@ export default function ResetPassword() {
         }
     }, [navigate]);
 
-    const handleOnSubmit = (e:any) => {
+    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             resetPassword(values.password, values.code);

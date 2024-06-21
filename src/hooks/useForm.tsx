@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-export function useForm(inputValues={}) {
+interface IuseForm {
+  [key: string]: string;
+}
+
+export function useForm(inputValues: IuseForm) {
     const [values, setValues] = useState(inputValues);
   
     const handleChange = (event: any) => {

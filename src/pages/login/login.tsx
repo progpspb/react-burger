@@ -9,9 +9,9 @@ export default function LoginPage() {
 
     const dispatch = useDispatch();
 
-    const { isError, errMessage } : any = useSelector<any>(state => state.auth);
+    const { isError, errMessage } = useSelector((state: any) => state.auth);
 
-    const { values, handleChange } : any  = useForm({email: '', password: ''});
+    const { values, handleChange } = useForm({email: '', password: ''});
 
     const handleOnSubmit = (e:any) => {
         e.preventDefault();

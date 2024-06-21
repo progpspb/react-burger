@@ -4,7 +4,13 @@ import styles from './modal.module.css';
 import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
-const Modal = ({ title, children, onClose}: { title: string, children: any, onClose: () => void }) => {
+interface IModal {
+    title: string; 
+    children: any; 
+    onClose: () => void 
+}
+
+const Modal = ({ title, children, onClose}: IModal) => {
 
     useEffect(() => {
 

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { login, register, logout, getUserData, updateUserData } from '../../utils/auth';
 
 export const SET_USER_REQUEST = 'SET_USER_REQUEST';
@@ -13,7 +15,7 @@ export const setAuthorized = (isAuth: boolean) => {
 };
 
 export const authLogin = (email: string, password: string)=> {
-  return (dispatch : any) => {
+  return (dispatch) => {
     dispatch({
         type: SET_USER_REQUEST
     })
@@ -36,7 +38,7 @@ export const authLogin = (email: string, password: string)=> {
 };
 
 export const authRegister = (email: string, password: string, name: string) => {
-  return (dispatch : any) => {
+  return (dispatch) => {
     dispatch({
         type: SET_USER_REQUEST
     })
@@ -59,7 +61,7 @@ export const authRegister = (email: string, password: string, name: string) => {
 };
 
 export const authLogout = () => {
-  return (dispatch : any) => {
+  return (dispatch) => {
     dispatch({
       type: SET_USER_REQUEST
     })
@@ -83,7 +85,7 @@ export const authLogout = () => {
 };
 
 export const getUser = () => {
-  return (dispatch : any) => {
+  return (dispatch) => {
     dispatch({
       type: SET_USER_REQUEST
     })
@@ -105,8 +107,8 @@ export const getUser = () => {
   }
 };
 
-export const authUpdateUser = (newValues:any) => {
-  return (dispatch : any) => {
+export const authUpdateUser = (newValues) => {
+  return (dispatch) => {
     dispatch({
       type: SET_USER_REQUEST
     })
@@ -127,10 +129,10 @@ export const authUpdateUser = (newValues:any) => {
 };
 
 export const checkUserAuth = () => {
-  return (dispatch : any) => {
+  return (dispatch) => {
     if (localStorage.getItem('accessToken')) {
       dispatch(getUserData())
-        .then((res : any) => {
+        .then((res) => {
           dispatch(setAuthorized(true));
         })
         .catch(() => {

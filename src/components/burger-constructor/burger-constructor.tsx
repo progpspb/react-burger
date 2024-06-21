@@ -13,6 +13,7 @@ import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services
 import { addBun, addIngredient, moveIngredient, deleteIngredient, clearConstructor} from '../../services/actions/burger-constructor';
 import { getUser } from '../../services/selectors';
 import { useNavigate } from 'react-router-dom';
+import { IngredientType } from '../../types/types';
 
 const BurgerConstructor = () => {
 
@@ -32,7 +33,7 @@ const BurgerConstructor = () => {
 
     const [, dropRef] = useDrop({
         accept: "ingredient",
-        drop(ingredient: any) {
+        drop(ingredient: IngredientType) {
             if (ingredient.type === 'bun') {
                 dispatch(addBun(ingredient));
             } else {
@@ -45,26 +46,25 @@ const BurgerConstructor = () => {
         
         if (!user) {
             return navigate('/login');
-        }
-        
+        }        
 
         const ids = [
             bun._id,
-            ...ingredients.map((item: any) => item._id),
+            ...ingredients.map((item: IngredientType) => item._id),
             bun._id,
         ];
 
         setLoading(true);
         openModal();
 
-        const sendOrder = async ( data: any ) => {
+        const sendOrder = async ( data: Array<IngredientType> ) => {
             try {
                 const result = await createOrder( data );
                 if(result.success) {
                     setOrderDetails(result.order);
                     dispatch(clearConstructor());                                       
                 } else {
-                    setError('Произошла ошибка при создании заказа' as any);                
+                    setError(true);                
                 }
             } catch (error) {
                 console.error(error)
@@ -76,7 +76,7 @@ const BurgerConstructor = () => {
         sendOrder(ids);
     };
 
-    const renderItem = useCallback((ingredient:any, index: number) => {
+    const renderItem = useCallback((ingredient: IngredientType, index: number) => {
         
         const moveItem = (dragIndex: number, hoverIndex: number) => {
             dispatch(moveIngredient(dragIndex, hoverIndex));
@@ -121,7 +121,7 @@ const BurgerConstructor = () => {
                 )}          
 
                 <div className={styles.order_items_scroll + ' pl-4'}>
-                    {ingredients.map(((ingredient: any, index: number) => {                        
+                    {ingredients.map(((ingredient: IngredientType, index: number) => {                        
                         return renderItem(ingredient, index)
                     }))}
                 </div>
@@ -166,7 +166,7 @@ const BurgerConstructor = () => {
                 ) :
             isError && (
                 <Modal title = "Произошла ошибка при создании заказа" onClose = { closeModal }>
-                    <div className={styles.order_loading}>{isError}</div>
+                    <div className={styles.order_loading}>Заказ не создан!</div>
                 </Modal>              
             )}
 

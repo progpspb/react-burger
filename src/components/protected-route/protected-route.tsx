@@ -2,7 +2,8 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getUser, isAuthorized } from '../../services/selectors';
-import { ProtectedRouteType } from '../../types/ingredient';
+import { ProtectedRouteType } from '../../types/types';
+import { ReactElement } from 'react';
 
 const ProtectedRoute = ({ component, needAuth } : ProtectedRouteType) => {
 
@@ -28,10 +29,10 @@ const ProtectedRoute = ({ component, needAuth } : ProtectedRouteType) => {
     return component;
 }
 
-export const OnlyForAuthorized = ({ component } : any) => (
+export const OnlyForAuthorized = ({ component } : { component: ReactElement}) => (
   <ProtectedRoute component={component} needAuth={true} />
 );
 
-export const OnlyForGuest = ({ component } : any) => (
+export const OnlyForGuest = ({ component } : { component: ReactElement}) => (
   <ProtectedRoute component={component} needAuth={false} />
 );

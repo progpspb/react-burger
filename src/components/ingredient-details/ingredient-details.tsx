@@ -1,17 +1,17 @@
 import styles from './ingredient-details.module.css';
-import { IngredientType } from '../../types/ingredient';
 import { useParams } from "react-router";
 import { useSelector } from 'react-redux';
 import { getIngredients } from '../../services/selectors';
+import { IngredientType } from '../../types/types';
 
-const IngredientDetails:any = () => {
+const IngredientDetails : React.FC = () => {
 
   const { id } = useParams();
-  const ingredients:any = useSelector(getIngredients);
+  const ingredients = useSelector(getIngredients);
   const ingredient = ingredients.find((ingredient:IngredientType) => ingredient._id === id); 
   
   if(!ingredient) {
-    return;
+    return null;
   }
 
   return (

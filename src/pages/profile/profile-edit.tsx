@@ -11,18 +11,18 @@ export default function ProfileEdit() {
     const dispatch = useDispatch();
     const user = useSelector(getUser);
 
-    const { isError, errMessage } : any  = useSelector<any>(state => state.auth); 
+    const { isError, errMessage } = useSelector((state : any) => state.auth); 
     const [ isChanged, setChanged ] = useState(false);
 
-    const { values, handleChange, setValues } : any  = useForm({name: user.name, email: user.email, password: 'password'});
+    const { values, handleChange, setValues } = useForm({name: user.name, email: user.email, password: 'password'});
 
-    const handleOnSubmit = (e:any) => {
-        e.preventDefault();
+    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();       
         dispatch(authUpdateUser(values) as any);
         setChanged(false);
     }
 
-    const cancelUpdate = (e:any) => {
+    const cancelUpdate = (e: React.SyntheticEvent) => {
         setValues({
             ...user, 
             name: user.name, 

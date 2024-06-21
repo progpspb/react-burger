@@ -1,22 +1,25 @@
 import styles from './ingredient.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientType } from '../../../types/ingredient';
 import { useDrag } from "react-dnd";
 import { useSelector } from 'react-redux';
 import { getBurgerBun, getBurgerIngredients } from '../../../services/selectors';
 import { useLocation } from "react-router";
 import { Link } from 'react-router-dom';
+import { IngredientType } from '../../../types/types';
 
-const Ingredient = ({ ingredient }: {ingredient: IngredientType}) => {
+interface IIngredient {
+    key: string;
+    ingredient: IngredientType;
+}
+
+const Ingredient = ({key, ingredient }: IIngredient) => {
 
     const location = useLocation();
 
-    const id = ingredient._id;
-
     const bun = useSelector(getBurgerBun);
-    const ingredients: IngredientType[] = useSelector(getBurgerIngredients);
-    const countBuns = (bun && bun._id === id) ? 2 : 0;
-    const countIngredients = ingredients.filter(item => item._id === id).length + countBuns;
+    const ingredients = useSelector(getBurgerIngredients);
+    const countBuns = (bun && bun._id === key) ? 2 : 0;
+    const countIngredients = ingredients.filter((item: IngredientType) => item._id === key).length + countBuns;
 
     const [ , dragRef] = useDrag({
         type: 'ingredient',
@@ -25,8 +28,8 @@ const Ingredient = ({ ingredient }: {ingredient: IngredientType}) => {
     
     return (
         <Link 
-            key={id} 
-            to={`/ingredients/${id}`} 
+            key={key} 
+            to={`/ingredients/${key}`} 
             state={{ background: location }} 
             className={styles.link}
             ref={ dragRef }
