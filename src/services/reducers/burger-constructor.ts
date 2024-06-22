@@ -1,13 +1,19 @@
-// @ts-nocheck
-
-import { ADD_BUN, ADD_INGREDIENT, MOVE_INGREDIENT, DELETE_INGREDIENT, CLEAR_CONSTRUCTOR } from '../actions/burger-constructor';
+import { 
+  ADD_BUN, 
+  ADD_INGREDIENT, 
+  MOVE_INGREDIENT, 
+  DELETE_INGREDIENT, 
+  CLEAR_CONSTRUCTOR,
+  BurgerConstructorActionsType
+} from '../actions/burger-constructor';
+import { IngredientType } from '../../types/types';
 
 const initialState = {
   bun: null,
   ingredients: []
 }
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action: BurgerConstructorActionsType) => {
     switch (action.type) {
       case ADD_BUN: {
         return { 
@@ -32,7 +38,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       case DELETE_INGREDIENT: {
         return { 
           ...state, 
-          ingredients: state.ingredients.filter(ingredient => ingredient.uuid !== action.payload.uuid)
+          ingredients: state.ingredients.filter((ingredient: IngredientType) => ingredient.uuid !== action.payload.uuid)
         }
       }
       case CLEAR_CONSTRUCTOR: {

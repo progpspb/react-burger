@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { useRef, FC } from "react";
 import { useDrag, useDrop } from 'react-dnd';
+import { DraggableItemType } from '../../types/types';
 
-const DraggableItem:any = ({ children, index, moveElement }: { children: any, index: number, moveElement:any, className: string }) => {
+const DraggableItem: FC<DraggableItemType> = ({ children, index, moveElement }) => {
 
     const ref:any = useRef(null);
 
@@ -17,7 +18,7 @@ const DraggableItem:any = ({ children, index, moveElement }: { children: any, in
 
         accept: 'item',
 
-        hover(item:any, monitor) {
+        hover(item: {id: string,  index: number }, monitor) {
 
             if (!ref.current) return;
             
@@ -28,7 +29,7 @@ const DraggableItem:any = ({ children, index, moveElement }: { children: any, in
 
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            const clientOffset:any = monitor.getClientOffset();
+            const clientOffset = monitor.getClientOffset() as any;
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) { return }

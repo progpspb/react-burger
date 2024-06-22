@@ -1,6 +1,9 @@
-// @ts-nocheck
-
-import { SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, SEND_ORDER_FAILED } from '../actions/order-details';
+import { 
+    SEND_ORDER_REQUEST, 
+    SEND_ORDER_SUCCESS, 
+    SEND_ORDER_FAILED,
+    OrderActionsType 
+} from '../actions/order-details';
 
 const initialState = {
     orderDetails: null,
@@ -8,7 +11,7 @@ const initialState = {
     isError: false
 };
 
-export const orderDetailsReducer = (state = initialState, action) => {
+export const orderDetailsReducer = (state = initialState, action: OrderActionsType) => {
     switch (action.type) {
         case SEND_ORDER_REQUEST: {
             return {

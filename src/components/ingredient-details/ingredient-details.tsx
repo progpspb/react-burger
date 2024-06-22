@@ -1,10 +1,11 @@
 import styles from './ingredient-details.module.css';
+import { FC } from "react";
 import { useParams } from "react-router";
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../hooks';
 import { getIngredients } from '../../services/selectors';
 import { IngredientType } from '../../types/types';
 
-const IngredientDetails : React.FC = () => {
+const IngredientDetails : FC = () => {
 
   const { id } = useParams();
   const ingredients = useSelector(getIngredients);

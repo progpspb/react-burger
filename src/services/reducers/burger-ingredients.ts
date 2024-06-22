@@ -1,6 +1,9 @@
-// @ts-nocheck
-
-import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED} from '../actions/burger-ingredients';
+import { 
+    GET_INGREDIENTS_REQUEST, 
+    GET_INGREDIENTS_SUCCESS, 
+    GET_INGREDIENTS_FAILED,
+    BurgerIngredientsActionsType
+} from '../actions/burger-ingredients';
 
 const initialState = {
     buns: [],
@@ -9,7 +12,7 @@ const initialState = {
     isError: false
 };
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (state = initialState, action: BurgerIngredientsActionsType) => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {

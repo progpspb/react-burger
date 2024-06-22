@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../hooks';
 import { getIngredientsLoading, getIngredientsError } from '../../services/selectors';
 import { getUser } from '../../services/actions/auth';
 import { getAllIngredients } from '../../services/actions/burger-ingredients';
@@ -27,10 +27,8 @@ function App() {
     };
 
     useEffect( () => {
-        //@ts-ignore
-        dispatch( getAllIngredients());
-        //@ts-ignore     
-        dispatch( getUser());
+        dispatch(getAllIngredients());
+        dispatch(getUser());
     }, [ dispatch ]);
 
     return (

@@ -1,7 +1,7 @@
 import styles from './reset-password.module.css';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, FormEvent } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { resetPassword } from '../../utils/auth';
 
@@ -16,7 +16,7 @@ export default function ResetPassword() {
         }
     }, [navigate]);
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             resetPassword(values.password, values.code);

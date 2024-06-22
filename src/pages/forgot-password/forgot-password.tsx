@@ -1,4 +1,5 @@
 import styles from './forgot-password.module.css';
+import { SyntheticEvent } from 'react';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
@@ -10,7 +11,7 @@ export default function ForgotPassword() {
 
     const { values, handleChange } = useForm({email: ''});
 
-    const handleOnSubmit = (e: React.SyntheticEvent) => {
+    const handleOnSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
         try {
             forgotPassword(values.email);

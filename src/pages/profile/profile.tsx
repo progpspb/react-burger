@@ -1,5 +1,6 @@
 import styles from './profile.module.css';
-import { useDispatch } from 'react-redux';
+import { MouseEvent } from 'react';
+import { useDispatch } from '../../hooks';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { authLogout } from '../../services/actions/auth';
 
@@ -9,9 +10,9 @@ export default function ProfilePage() {
     const location = useLocation();
     const curPage = location.pathname;
 
-    const logout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const logout = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        dispatch(authLogout() as any);
+        dispatch(authLogout());
     }
     
     return (        

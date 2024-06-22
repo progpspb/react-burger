@@ -1,6 +1,6 @@
 
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../hooks';
 import { getUser, isAuthorized } from '../../services/selectors';
 import { ProtectedRouteType } from '../../types/types';
 import { ReactElement } from 'react';

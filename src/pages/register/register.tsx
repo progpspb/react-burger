@@ -1,21 +1,22 @@
 import styles from './register.module.css';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
+import { FormEvent } from 'react';
 import { useForm } from '../../hooks/useForm';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../hooks';
 import { authRegister } from '../../services/actions/auth';
 
 export default function RegisterPage() {
 
     const dispatch = useDispatch();
 
-    const { isError, errMessage } = useSelector((state: any) => state.auth);
+    const { isError, errMessage } = useSelector((state) => state.auth);
 
     const { values, handleChange } = useForm({email: '', password: '', name: ''});
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(authRegister(values.email, values.password, values.name) as any);
+        dispatch(authRegister(values.email, values.password, values.name));
     }
 
     return (

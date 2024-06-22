@@ -36,3 +36,10 @@ export type ModalType = {
     children: any,
     onClose: void,
 };
+
+export type UserType = {
+    name?: string;
+    email: string;
+    password: string;
+    code: string | undefined;
+};

@@ -1,4 +1,4 @@
-import { sendRequest } from "./api";
+import { sendRequest} from "./api";
 
 // авторизация
 
@@ -84,7 +84,6 @@ export const updateUserData = async (data : any) => {
     return sendWithRefresh('/auth/user', options);
 }
 
-
 // работа с токеном
 
 export const refreshToken = async () => {
@@ -106,7 +105,7 @@ export const refreshToken = async () => {
     return refreshData;
 }
 
-export const sendWithRefresh = async (url : string, options : any) => {
+export const sendWithRefresh = async (url : string, options: any) => {
     try {
         return await sendRequest(url, options);
     } catch (err : any) {

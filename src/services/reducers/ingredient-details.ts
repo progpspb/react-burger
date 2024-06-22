@@ -1,10 +1,11 @@
-// @ts-nocheck
-
-import { SET_INGREDIENT_DETAILS } from '../actions/ingredient-details';
+import { 
+    SET_INGREDIENT_DETAILS, 
+    IngredientActionsType 
+} from '../actions/ingredient-details';
 
 const initialState = null;
 
-export const ingredientDetailsReducer = (state = initialState, action) => {
+export const ingredientDetailsReducer = (state = initialState, action: IngredientActionsType) => {
     switch (action.type) {
         case SET_INGREDIENT_DETAILS:
             return action.payload;

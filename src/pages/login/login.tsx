@@ -1,7 +1,8 @@
 import styles from './login.module.css';
+import { FormEvent } from 'react';
 import { Button, EmailInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../hooks';
 import { authLogin } from '../../services/actions/auth';
 import { useForm } from '../../hooks/useForm';
 
@@ -9,13 +10,13 @@ export default function LoginPage() {
 
     const dispatch = useDispatch();
 
-    const { isError, errMessage } = useSelector((state: any) => state.auth);
+    const { isError, errMessage } = useSelector((state) => state.auth);
 
     const { values, handleChange } = useForm({email: '', password: ''});
 
-    const handleOnSubmit = (e:any) => {
+    const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(authLogin(values.email, values.password) as any);
+        dispatch(authLogin(values.email, values.password));
     }
 
     return (

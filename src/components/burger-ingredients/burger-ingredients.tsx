@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from './ingredient/ingredient';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../hooks';
 import { getIngredients } from '../../services/selectors';
 import { IngredientType } from '../../types/types';
 

@@ -1,21 +1,49 @@
-// @ts-nocheck
-
 import { login, register, logout, getUserData, updateUserData } from '../../utils/auth';
+import { UserType } from '../../types/types';
 
-export const SET_USER_REQUEST = 'SET_USER_REQUEST';
-export const SET_USER_SUCCESS = 'SET_USER_SUCCESS';
-export const SET_USER_FAILED = 'SET_USER_FAILED';
-export const SET_AUTHORIZED = 'SET_AUTHORIZED';
+export const SET_USER_REQUEST: 'SET_USER_REQUEST' = 'SET_USER_REQUEST';
+export const SET_USER_SUCCESS: 'SET_USER_SUCCESS' = 'SET_USER_SUCCESS';
+export const SET_USER_FAILED: 'SET_USER_FAILED' = 'SET_USER_FAILED';
+export const SET_AUTHORIZED: 'SET_AUTHORIZED' = 'SET_AUTHORIZED';
 
-export const setAuthorized = (isAuth: boolean) => {
+// interfaces
+
+export interface ISetAuthorized {
+  readonly type: typeof SET_AUTHORIZED;
+  readonly payload: boolean;
+}
+
+export interface IAuthRequest {
+  readonly type: typeof SET_USER_REQUEST;
+}
+
+export interface IAuthSuccess {
+  readonly type: typeof SET_USER_SUCCESS;
+  readonly payload: any;
+}
+
+export interface IAuthFailed {
+  readonly type: typeof SET_USER_FAILED;
+  readonly payload: any;
+}
+
+export type AuthActionsType = 
+  | ISetAuthorized
+  | IAuthRequest
+  | IAuthSuccess
+  | IAuthFailed;
+
+// actions
+
+export const setAuthorized = (isAuth: boolean): ISetAuthorized => {
   return {
     type: SET_AUTHORIZED,
     payload: isAuth
   };
 };
 
-export const authLogin = (email: string, password: string)=> {
-  return (dispatch) => {
+export const authLogin = (email: string, password: string) => {
+  return (dispatch: any) => {
     dispatch({
         type: SET_USER_REQUEST
     })
@@ -38,7 +66,7 @@ export const authLogin = (email: string, password: string)=> {
 };
 
 export const authRegister = (email: string, password: string, name: string) => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     dispatch({
         type: SET_USER_REQUEST
     })
@@ -61,7 +89,7 @@ export const authRegister = (email: string, password: string, name: string) => {
 };
 
 export const authLogout = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     dispatch({
       type: SET_USER_REQUEST
     })
@@ -85,7 +113,7 @@ export const authLogout = () => {
 };
 
 export const getUser = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     dispatch({
       type: SET_USER_REQUEST
     })
@@ -107,8 +135,8 @@ export const getUser = () => {
   }
 };
 
-export const authUpdateUser = (newValues) => {
-  return (dispatch) => {
+export const authUpdateUser = (newValues: UserType) => {
+  return (dispatch: any) => {
     dispatch({
       type: SET_USER_REQUEST
     })
@@ -129,10 +157,10 @@ export const authUpdateUser = (newValues) => {
 };
 
 export const checkUserAuth = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     if (localStorage.getItem('accessToken')) {
       dispatch(getUserData())
-        .then((res) => {
+        .then((res: any) => {
           dispatch(setAuthorized(true));
         })
         .catch(() => {

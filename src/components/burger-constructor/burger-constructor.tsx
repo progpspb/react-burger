@@ -8,7 +8,7 @@ import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
 import { useDrop } from 'react-dnd';
 import { createOrder } from '../../utils/api';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../hooks/';
 import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services/selectors';
 import { addBun, addIngredient, moveIngredient, deleteIngredient, clearConstructor} from '../../services/actions/burger-constructor';
 import { getUser } from '../../services/selectors';

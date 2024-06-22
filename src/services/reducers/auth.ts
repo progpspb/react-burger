@@ -1,6 +1,10 @@
-// @ts-nocheck
-
-import { SET_USER_REQUEST, SET_USER_SUCCESS, SET_USER_FAILED, SET_AUTHORIZED } from '../actions/auth';
+import { 
+    SET_USER_REQUEST, 
+    SET_USER_SUCCESS, 
+    SET_USER_FAILED, 
+    SET_AUTHORIZED,
+    AuthActionsType
+} from '../actions/auth';
 
 const initialState = {
     user: null,
@@ -10,7 +14,7 @@ const initialState = {
     errMessage: ''
 };
 
-export const authUserReducer = (state = initialState, action) => {
+export const authUserReducer = (state = initialState, action: AuthActionsType) => {
   switch (action.type) {
     case SET_USER_REQUEST: {
         return { ...state, isLoading: true };

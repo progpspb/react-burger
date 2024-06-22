@@ -1,8 +1,19 @@
-// @ts-nocheck
+import { IngredientType } from '../../types/types';
 
-export const SET_INGREDIENT_DETAILS = 'SET_INGREDIENT_DETAILS';
+export const SET_INGREDIENT_DETAILS: 'SET_INGREDIENT_DETAILS' = 'SET_INGREDIENT_DETAILS';
 
-export const setIngredientDetails = (ingredient) => {
+// interfaces
+
+export interface ISetIngredientDetails {
+    readonly type: typeof SET_INGREDIENT_DETAILS;
+    readonly payload: IngredientType;
+}
+
+export type IngredientActionsType = ISetIngredientDetails;
+
+// actions
+
+export const setIngredientDetails = (ingredient: IngredientType): ISetIngredientDetails => {
     return {
         type: SET_INGREDIENT_DETAILS,
         payload: ingredient
