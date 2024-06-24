@@ -2,7 +2,7 @@ import {
     GET_INGREDIENTS_REQUEST, 
     GET_INGREDIENTS_SUCCESS, 
     GET_INGREDIENTS_FAILED,
-    BurgerIngredientsActionsType
+    TBurgerIngredientsActions
 } from '../actions/burger-ingredients';
 
 const initialState = {
@@ -12,7 +12,7 @@ const initialState = {
     isError: false
 };
 
-export const burgerIngredientsReducer = (state = initialState, action: BurgerIngredientsActionsType) => {
+export const burgerIngredientsReducer = (state = initialState, action: TBurgerIngredientsActions) => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {

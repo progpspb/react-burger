@@ -1,8 +1,8 @@
 import styles from './order-details.module.css';
-import { OrderDetailsType } from '../../types/types';
+import { TOrderDetails } from '../../types/types';
 import doneImg from '../../images/done.png';
 
-const OrderDetails = ({order} : OrderDetailsType) => {
+const OrderDetails = ({order}: TOrderDetails) => {
     return (
         <div className={styles.details}>
             <div className={styles.sum + 'text text_type_digits-large'}>{order.number}</div>

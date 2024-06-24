@@ -3,7 +3,7 @@ import {
     SET_USER_SUCCESS, 
     SET_USER_FAILED, 
     SET_AUTHORIZED,
-    AuthActionsType
+    TAuthActions
 } from '../actions/auth';
 
 const initialState = {
@@ -14,7 +14,7 @@ const initialState = {
     errMessage: ''
 };
 
-export const authUserReducer = (state = initialState, action: AuthActionsType) => {
+export const authUserReducer = (state = initialState, action: TAuthActions) => {
   switch (action.type) {
     case SET_USER_REQUEST: {
         return { ...state, isLoading: true };

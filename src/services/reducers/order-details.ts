@@ -2,7 +2,7 @@ import {
     SEND_ORDER_REQUEST, 
     SEND_ORDER_SUCCESS, 
     SEND_ORDER_FAILED,
-    OrderActionsType 
+    TOrderActions 
 } from '../actions/order-details';
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
     isError: false
 };
 
-export const orderDetailsReducer = (state = initialState, action: OrderActionsType) => {
+export const orderDetailsReducer = (state = initialState, action: TOrderActions) => {
     switch (action.type) {
         case SEND_ORDER_REQUEST: {
             return {

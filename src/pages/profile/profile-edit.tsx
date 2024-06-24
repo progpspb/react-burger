@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from '../../hooks';
 import { useForm } from '../../hooks/useForm';
 import { authUpdateUser } from '../../services/actions/auth';
 import { getUser } from '../../services/selectors';
-import { UserType } from '../../types/types';
+import { TUser } from '../../types/types';
 
 export default function ProfileEdit() {
 
@@ -15,11 +15,11 @@ export default function ProfileEdit() {
     const { isError, errMessage } = useSelector((state) => state.auth); 
     const [ isChanged, setChanged ] = useState(false);
 
-    const { values, handleChange, setValues } = useForm({name: user.name, email: user.email, password: 'password'});
+    const { values, handleChange, reset } = useForm({name: user?.name, email: user?.email, password: ''});
 
     const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();       
-        dispatch(authUpdateUser(values as UserType))
+        dispatch(authUpdateUser(values as TUser))
         setChanged(false);
     }
 
@@ -29,12 +29,7 @@ export default function ProfileEdit() {
     }
 
     const cancelUpdate = (e: SyntheticEvent) => {
-        setValues({
-            ...user, 
-            name: user.name, 
-            email: user.email,
-            password: user.password
-        })
+        reset();
         setChanged(false);
     }
 

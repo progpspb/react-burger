@@ -1,5 +1,5 @@
 import { loadIngredients } from '../../utils/api';
-import { IngredientType } from '../../types/types';
+import { TIngredient } from '../../types/types';
 
 export const GET_INGREDIENTS_REQUEST: 'GET_INGREDIENTS_REQUEST' = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
@@ -13,7 +13,7 @@ export interface IGetAllIngredientsRequest {
 
 export interface IGetAllIngredientsSuccess {
     readonly type: typeof GET_INGREDIENTS_SUCCESS;
-    readonly payload: Array<IngredientType>;
+    readonly payload: Array<TIngredient>;
 }
 
 export interface IGetAllIngredientsFailed {
@@ -21,7 +21,7 @@ export interface IGetAllIngredientsFailed {
     readonly payload: string;
 }
 
-export type BurgerIngredientsActionsType = 
+export type TBurgerIngredientsActions = 
     | IGetAllIngredientsRequest
     | IGetAllIngredientsSuccess
     | IGetAllIngredientsFailed;

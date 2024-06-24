@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { IngredientType } from '../../types/types';
+import { TIngredient } from '../../types/types';
 
 export const ADD_BUN: 'ADD_BUN' = 'ADD_BUN';
 export const ADD_INGREDIENT: 'ADD_INGREDIENT' = 'ADD_INGREDIENT';
@@ -33,7 +33,7 @@ export interface IClearConstructor {
     readonly type: typeof CLEAR_CONSTRUCTOR;
 }
 
-export type BurgerConstructorActionsType = 
+export type TBurgerConstructorActions = 
     | IAddBun
     | IAddIngredient
     | IDeleteIngredient
@@ -42,14 +42,14 @@ export type BurgerConstructorActionsType =
 
 // actions
 
-export const addBun = (bun: IngredientType) : IAddBun => {
+export const addBun = (bun: TIngredient) : IAddBun => {
     return { 
         type: ADD_BUN, 
         payload: { ...bun, uuid: uuidv4() }
     }
 }
 
-export const addIngredient = (ingredient: IngredientType) : IAddIngredient => {
+export const addIngredient = (ingredient: TIngredient) : IAddIngredient => {
     return { 
         type: ADD_INGREDIENT, 
         payload: { ...ingredient, uuid: uuidv4() }

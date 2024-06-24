@@ -13,7 +13,7 @@ import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services
 import { addBun, addIngredient, moveIngredient, deleteIngredient, clearConstructor} from '../../services/actions/burger-constructor';
 import { getUser } from '../../services/selectors';
 import { useNavigate } from 'react-router-dom';
-import { IngredientType } from '../../types/types';
+import { TIngredient } from '../../types/types';
 
 const BurgerConstructor = () => {
 
@@ -33,7 +33,7 @@ const BurgerConstructor = () => {
 
     const [, dropRef] = useDrop({
         accept: "ingredient",
-        drop(ingredient: IngredientType) {
+        drop(ingredient: TIngredient) {
             if (ingredient.type === 'bun') {
                 dispatch(addBun(ingredient));
             } else {
@@ -48,16 +48,16 @@ const BurgerConstructor = () => {
             return navigate('/login');
         }        
 
-        const ids = [
+        const ids: Array<string> = [
             bun._id,
-            ...ingredients.map((item: IngredientType) => item._id),
+            ...ingredients.map((item: TIngredient) => item._id),
             bun._id,
         ];
 
         setLoading(true);
         openModal();
 
-        const sendOrder = async ( data: Array<IngredientType> ) => {
+        const sendOrder = async ( data: Array<string> ) => {
             try {
                 const result = await createOrder( data );
                 if(result.success) {
@@ -76,7 +76,7 @@ const BurgerConstructor = () => {
         sendOrder(ids);
     };
 
-    const renderItem = useCallback((ingredient: IngredientType, index: number) => {
+    const renderItem = useCallback((ingredient: TIngredient, index: number) => {
         
         const moveItem = (dragIndex: number, hoverIndex: number) => {
             dispatch(moveIngredient(dragIndex, hoverIndex));
@@ -121,7 +121,7 @@ const BurgerConstructor = () => {
                 )}          
 
                 <div className={styles.order_items_scroll + ' pl-4'}>
-                    {ingredients.map(((ingredient: IngredientType, index: number) => {                        
+                    {ingredients.map(((ingredient: TIngredient, index: number) => {                        
                         return renderItem(ingredient, index)
                     }))}
                 </div>

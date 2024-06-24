@@ -1,5 +1,3 @@
-import { IngredientType } from '../types/types';
-
 export const BURGER_API_URL = "https://norma.nomoreparties.space/api";
 
 // получение списка ингредиентов
@@ -10,7 +8,7 @@ export const loadIngredients = async () => {
 
 // создание заказов
 
-export const createOrder = async (orderDetails: Array<IngredientType>) => {
+export const createOrder = async (orderDetails: Array<string>) => {
     const options = {
         method: 'POST',
         headers: {'Content-Type': 'application/json;charset=utf-8'},

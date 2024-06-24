@@ -1,8 +1,8 @@
 import { useRef, FC } from "react";
 import { useDrag, useDrop } from 'react-dnd';
-import { DraggableItemType } from '../../types/types';
+import { TDraggableItem } from '../../types/types';
 
-const DraggableItem: FC<DraggableItemType> = ({ children, index, moveElement }) => {
+const DraggableItem: FC<TDraggableItem> = ({ children, index, moveElement }) => {
 
     const ref:any = useRef(null);
 

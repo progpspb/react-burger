@@ -11,6 +11,10 @@ export function useForm(inputValues: IUseForm) {
       const {value, name} = event.target;
       setValues({...values, [name]: value});
     };
+
+    const reset = () => {
+        setValues(inputValues);
+    }
     
-    return {values, handleChange, setValues};
+    return {values, handleChange, reset};
 }

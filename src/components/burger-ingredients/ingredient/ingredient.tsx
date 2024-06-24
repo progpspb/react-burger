@@ -5,9 +5,9 @@ import { useSelector } from '../../../hooks';
 import { getBurgerBun, getBurgerIngredients } from '../../../services/selectors';
 import { useLocation } from "react-router";
 import { Link } from 'react-router-dom';
-import { IngredientType } from '../../../types/types';
+import { TIngredient } from '../../../types/types';
 
-const Ingredient = ({ingredient} : {ingredient: IngredientType}) => {
+const Ingredient = ({ingredient} : {ingredient: TIngredient}) => {
 
     const location = useLocation();
 
@@ -16,7 +16,7 @@ const Ingredient = ({ingredient} : {ingredient: IngredientType}) => {
     const bun = useSelector(getBurgerBun);
     const ingredients = useSelector(getBurgerIngredients);
     const countBuns = (bun && bun._id === id) ? 2 : 0;
-    const countIngredients = ingredients.filter((item: IngredientType) => item._id === id).length + countBuns;
+    const countIngredients = ingredients.filter((item: TIngredient) => item._id === id).length + countBuns;
 
     const [ , dragRef] = useDrag({
         type: 'ingredient',

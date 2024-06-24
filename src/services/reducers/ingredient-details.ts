@@ -1,11 +1,11 @@
 import { 
     SET_INGREDIENT_DETAILS, 
-    IngredientActionsType 
+    TIngredientActions 
 } from '../actions/ingredient-details';
 
 const initialState = null;
 
-export const ingredientDetailsReducer = (state = initialState, action: IngredientActionsType) => {
+export const ingredientDetailsReducer = (state = initialState, action: TIngredientActions) => {
     switch (action.type) {
         case SET_INGREDIENT_DETAILS:
             return action.payload;

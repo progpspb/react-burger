@@ -1,4 +1,4 @@
-import { IngredientType } from '../../types/types';
+import { TIngredient } from '../../types/types';
 
 export const SET_INGREDIENT_DETAILS: 'SET_INGREDIENT_DETAILS' = 'SET_INGREDIENT_DETAILS';
 
@@ -6,14 +6,14 @@ export const SET_INGREDIENT_DETAILS: 'SET_INGREDIENT_DETAILS' = 'SET_INGREDIENT_
 
 export interface ISetIngredientDetails {
     readonly type: typeof SET_INGREDIENT_DETAILS;
-    readonly payload: IngredientType;
+    readonly payload: TIngredient;
 }
 
-export type IngredientActionsType = ISetIngredientDetails;
+export type TIngredientActions = ISetIngredientDetails;
 
 // actions
 
-export const setIngredientDetails = (ingredient: IngredientType): ISetIngredientDetails => {
+export const setIngredientDetails = (ingredient: TIngredient): ISetIngredientDetails => {
     return {
         type: SET_INGREDIENT_DETAILS,
         payload: ingredient

@@ -1,5 +1,5 @@
 import { login, register, logout, getUserData, updateUserData } from '../../utils/auth';
-import { UserType } from '../../types/types';
+import { TUser } from '../../types/types';
 
 export const SET_USER_REQUEST: 'SET_USER_REQUEST' = 'SET_USER_REQUEST';
 export const SET_USER_SUCCESS: 'SET_USER_SUCCESS' = 'SET_USER_SUCCESS';
@@ -27,7 +27,7 @@ export interface IAuthFailed {
   readonly payload: any;
 }
 
-export type AuthActionsType = 
+export type TAuthActions = 
   | ISetAuthorized
   | IAuthRequest
   | IAuthSuccess
@@ -135,7 +135,7 @@ export const getUser = () => {
   }
 };
 
-export const authUpdateUser = (newValues: UserType) => {
+export const authUpdateUser = (newValues: TUser) => {
   return (dispatch: any) => {
     dispatch({
       type: SET_USER_REQUEST

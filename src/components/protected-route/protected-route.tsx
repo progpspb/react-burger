@@ -2,10 +2,10 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from '../../hooks';
 import { getUser, isAuthorized } from '../../services/selectors';
-import { ProtectedRouteType } from '../../types/types';
+import { TProtectedRoute } from '../../types/types';
 import { ReactElement } from 'react';
 
-const ProtectedRoute = ({ component, needAuth } : ProtectedRouteType) => {
+const ProtectedRoute = ({ component, needAuth } : TProtectedRoute) => {
 
     const isAuth = useSelector(isAuthorized);
     const user = useSelector(getUser);

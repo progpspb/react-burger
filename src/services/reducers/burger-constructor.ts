@@ -4,16 +4,16 @@ import {
   MOVE_INGREDIENT, 
   DELETE_INGREDIENT, 
   CLEAR_CONSTRUCTOR,
-  BurgerConstructorActionsType
+  TBurgerConstructorActions
 } from '../actions/burger-constructor';
-import { IngredientType } from '../../types/types';
+import { TIngredient } from '../../types/types';
 
 const initialState = {
   bun: null,
   ingredients: []
 }
 
-export const burgerConstructorReducer = (state = initialState, action: BurgerConstructorActionsType) => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions) => {
     switch (action.type) {
       case ADD_BUN: {
         return { 
@@ -38,7 +38,7 @@ export const burgerConstructorReducer = (state = initialState, action: BurgerCon
       case DELETE_INGREDIENT: {
         return { 
           ...state, 
-          ingredients: state.ingredients.filter((ingredient: IngredientType) => ingredient.uuid !== action.payload.uuid)
+          ingredients: state.ingredients.filter((ingredient: TIngredient) => ingredient.uuid !== action.payload.uuid)
         }
       }
       case CLEAR_CONSTRUCTOR: {

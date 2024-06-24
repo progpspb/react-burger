@@ -1,5 +1,4 @@
 import { createOrder } from '../../utils/api';
-import { IngredientType } from '../../types/types';
 
 export const SEND_ORDER_REQUEST: 'SEND_ORDER_REQUEST' = 'SEND_ORDER_REQUEST';
 export const SEND_ORDER_SUCCESS: 'SEND_ORDER_SUCCESS' = 'SEND_ORDER_SUCCESS';
@@ -26,14 +25,14 @@ export interface IOrderFailed {
     readonly payload: string;
 }
   
-export type OrderActionsType = 
+export type TOrderActions = 
     | IOrderRequest
     | IOrderSuccess
     | IOrderFailed;
 
 // actions
 
-export const sendOrderDetails = (orderDetails: Array<IngredientType>) => {
+export const sendOrderDetails = (orderDetails: Array<string>) => {
     return (dispatch:any) => {
         dispatch({
             type: SEND_ORDER_REQUEST

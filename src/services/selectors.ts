@@ -1,27 +1,27 @@
 import { RootState } from '../types/index';
-import { IngredientType } from '../types/types';
+import { TIngredient, TUser } from '../types/types';
 
 // BurgerIngredients
-export const getIngredients = (state: RootState) => state.ingredients.ingredients;
-export const getIngredientsLoading = (state: RootState) => state.ingredients.isLoading;
-export const getIngredientsError = (state: RootState) => state.ingredients.isError;
+export const getIngredients = (state: RootState) : Array<TIngredient> => state.ingredients.ingredients;
+export const getIngredientsLoading = (state: RootState) : boolean => state.ingredients.isLoading;
+export const getIngredientsError = (state: RootState) : boolean => state.ingredients.isError;
 
 // BurgerConstructor
-export const getBurgerBun = (state: RootState) => state.burger.bun;
-export const getBurgerIngredients = (state: RootState) => state.burger.ingredients;
+export const getBurgerBun = (state: RootState) : TIngredient => state.burger.bun;
+export const getBurgerIngredients = (state: RootState) : Array<TIngredient> => state.burger.ingredients;
 
-export const setTotalPrice = (state: RootState) => {
+export const setTotalPrice = (state: RootState) : number => {
     const bun = state.burger.bun;    
     const bunPrice = bun ? bun.price * 2 : 0;
     // @ts-ignore
-    return state.burger.ingredients.reduce((acc, item: IngredientType) => {
+    return state.burger.ingredients.reduce((acc, item: TIngredient) => {
         return acc + item.price;
     }, bunPrice);
 }
 
 // User
-export const getUser = (state: RootState) => state.auth.user;
-export const isAuthorized = (state: RootState) => state.auth.isAuthorized;
-export const authIsLoading = (state: RootState) => state.auth.isLoading;
-export const authError = (state: RootState) => state.auth.isError;
-export const authErrMessage = (state: RootState) => state.auth.errMessage;
+export const getUser = (state: RootState) : TUser => state.auth.user;
+export const isAuthorized = (state: RootState) : boolean => state.auth.isAuthorized;
+export const authIsLoading = (state: RootState) : boolean => state.auth.isLoading;
+export const authError = (state: RootState) : boolean => state.auth.isError;
+export const authErrMessage = (state: RootState) : string => state.auth.errMessage;

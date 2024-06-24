@@ -4,7 +4,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from './ingredient/ingredient';
 import { useSelector } from '../../hooks';
 import { getIngredients } from '../../services/selectors';
-import { IngredientType } from '../../types/types';
+import { TIngredient } from '../../types/types';
 
 const BurgerIngredients = () => {
     
@@ -12,9 +12,9 @@ const BurgerIngredients = () => {
 
     const ingredients = useSelector(getIngredients);
 
-    const bun = useMemo(() => ingredients.filter((item: IngredientType) => item.type === 'bun'), [ingredients]);
-    const sauce = useMemo(() => ingredients.filter((item: IngredientType) => item.type === 'sauce'), [ingredients]); 
-    const main = useMemo(() => ingredients.filter((item: IngredientType) => item.type === 'main'), [ingredients]);
+    const bun = useMemo(() => ingredients.filter((item: TIngredient) => item.type === 'bun'), [ingredients]);
+    const sauce = useMemo(() => ingredients.filter((item: TIngredient) => item.type === 'sauce'), [ingredients]); 
+    const main = useMemo(() => ingredients.filter((item: TIngredient) => item.type === 'main'), [ingredients]);
 
     const ingredientsCollection = useMemo(() => [
         {name:'Булки',type:'bun','items':bun}, 
@@ -64,7 +64,7 @@ const BurgerIngredients = () => {
                         <div id={collectionType.type} key = {idx}>
                             <h2 className='text text_type_main-large mt-10 mb-5'>{collectionType.name}</h2>
                             <div className={styles.items}>
-                            {collectionType.items.map((item: IngredientType) => {
+                            {collectionType.items.map((item: TIngredient) => {
                                 return (
                                     <Ingredient
                                         key = {item._id}                                       

@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-export type IngredientType = {
+export type TIngredient = {
     _id: string;
     name: string;
     image: string;
@@ -15,30 +15,30 @@ export type IngredientType = {
     uuid: string;
 };
 
-export type DraggableItemType = {
+export type TDraggableItem = {
     children: any;
     index: number;
     moveElement: any;
     className: string;
 };
 
-export type ProtectedRouteType = {
+export type TProtectedRoute = {
     component: ReactElement;
     needAuth: boolean;
 };
 
-export type OrderDetailsType = {
+export type TOrderDetails = {
     order: { number: number };
 };
 
-export type ModalType = {
+export type TModal = {
     title: string;    
     children: any,
     onClose: void,
 };
 
-export type UserType = {
-    name?: string;
+export type TUser = {
+    name: string;
     email: string;
     password: string;
     code: string | undefined;
