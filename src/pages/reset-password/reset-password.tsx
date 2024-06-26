@@ -5,7 +5,7 @@ import { useEffect, FormEvent } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { resetPassword } from '../../utils/auth';
 
-export default function ResetPassword() {
+export default function ResetPasswordPage() {
 
     const navigate = useNavigate();
     const { values, handleChange } = useForm({password: '', code: ''});

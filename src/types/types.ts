@@ -43,3 +43,11 @@ export type TUser = {
     password: string;
     code: string | undefined;
 };
+
+export type IMessageResponse = {
+    message: string;
+    success: boolean;
+    username: string;  
+    id?: string;
+    isBot?: boolean;
+};

@@ -7,7 +7,7 @@ import { authUpdateUser } from '../../services/actions/auth';
 import { getUser } from '../../services/selectors';
 import { TUser } from '../../types/types';
 
-export default function ProfileEdit() {
+export default function ProfileEditPage() {
 
     const dispatch = useDispatch();
     const user = useSelector(getUser);

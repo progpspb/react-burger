@@ -23,10 +23,8 @@ export const checkReponse = (res: Response) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 }
 
-export const sendRequest = (endpoint: string, options?: any) => {
-    return fetch(`${BURGER_API_URL}${endpoint}`, options)
-        .then(checkReponse)
-        .then(data => {
-            return data;
-        });
+export const sendRequest = async (endpoint: string, options?: any) => {
+    const res = await fetch(`${BURGER_API_URL}${endpoint}`, options);
+    const data = await checkReponse(res);
+    return data;
 }

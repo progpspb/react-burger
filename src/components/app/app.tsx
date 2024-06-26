@@ -6,7 +6,19 @@ import { useDispatch, useSelector } from '../../hooks';
 import { getIngredientsLoading, getIngredientsError } from '../../services/selectors';
 import { getUser } from '../../services/actions/auth';
 import { getAllIngredients } from '../../services/actions/burger-ingredients';
-import { HomePage, NotFoundPage, IngredientPage, LoginPage,  RegisterPage, ProfilePage, ForgotPassword, ResetPasswordPage, ProfileEdit, ProfileOrders } from '../../pages';
+import { 
+    HomePage, 
+    NotFoundPage, 
+    IngredientPage, 
+    LoginPage,  
+    RegisterPage, 
+    ProfilePage, 
+    ForgotPasswordPage, 
+    ResetPasswordPage, 
+    ProfileEditPage, 
+    ProfileOrdersPage, 
+    FeedPage 
+} from '../../pages';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { OnlyForAuthorized, OnlyForGuest} from '../protected-route/protected-route';
@@ -42,11 +54,12 @@ function App() {
                     <Route path='*' element={<NotFoundPage />} />
                     <Route path='/login' element={<OnlyForGuest component={<LoginPage/>}/>}/>
                     <Route path='/register' element={<OnlyForGuest component={<RegisterPage/>}/>}/>
-                    <Route path='/forgot-password' element={<OnlyForGuest component={<ForgotPassword/>}/>}/>
+                    <Route path='/forgot-password' element={<OnlyForGuest component={<ForgotPasswordPage/>}/>}/>
                     <Route path='/reset-password' element={<OnlyForGuest component={<ResetPasswordPage/>}/>}/>
+                    <Route path='/feed' element={<OnlyForAuthorized component={<FeedPage/>}/>}/>
                     <Route path='/profile' element={<OnlyForAuthorized component={<ProfilePage/>}/>}>
-                        <Route path='' element={<OnlyForAuthorized component={<ProfileEdit />} />} />
-                        <Route path='orders' element={<OnlyForAuthorized component={<ProfileOrders />} />} />
+                        <Route path='' element={<OnlyForAuthorized component={<ProfileEditPage />} />} />
+                        <Route path='orders' element={<OnlyForAuthorized component={<ProfileOrdersPage />} />} />
                     </Route>
                     <Route path='/ingredients/:id' element={<IngredientPage/>}/>      
                 </Routes>           

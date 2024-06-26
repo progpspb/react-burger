@@ -12,11 +12,11 @@ const AppHeader = () => {
             <nav className={styles.navbar + ' pb-4 pt-4'}>
                 <div className={styles.nav_left }>
                     <NavLink to={'/'} className={curPage === '/' ? styles.nav_link_active : styles.nav_link}>
-                        <BurgerIcon type="primary"/>
+                        <BurgerIcon type={curPage === '/' ? "primary" : "secondary"}/>
                         <span>Конструктор</span>
                     </NavLink>
-                    <NavLink to={'/orders'} className={curPage === '/orders' ? styles.nav_link_active : styles.nav_link}>
-                        <ListIcon type="secondary"/>
+                    <NavLink to={'/feed'} className={curPage === '/feed' ? styles.nav_link_active : styles.nav_link}>
+                        <ListIcon type={curPage === '/feed' ? "primary" : "secondary"}/>
                         <span>Лента заказов</span>
                     </NavLink>
                 </div>
@@ -25,7 +25,7 @@ const AppHeader = () => {
                 </div>
                 <div className={styles.nav_right}>
                     <NavLink to={'/profile'} className={curPage === '/profile' ? styles.nav_link_active : styles.nav_link}>
-                        <ProfileIcon type="secondary"/>
+                        <ProfileIcon type={curPage === '/profile' ? "primary" : "secondary"}/>
                         <span>Личный кабинет</span>
                     </NavLink>
                 </div>

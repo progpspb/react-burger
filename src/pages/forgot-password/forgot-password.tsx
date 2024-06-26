@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { forgotPassword } from '../../utils/auth';
 
-export default function ForgotPassword() {
+export default function ForgotPasswordPage() {
 
     const navigate = useNavigate();
 
