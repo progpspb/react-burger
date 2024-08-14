@@ -52,3 +52,11 @@ export const sendOrderDetails = (orderDetails: Array<string>) => {
         })
     }
 }
+
+
+export const setOrderDetails = (orderDetails: any) => {
+    return { 
+        type: SEND_ORDER_REQUEST, 
+        payload: { 'name':orderDetails.name, 'number': orderDetails.order.number }
+    }
+}

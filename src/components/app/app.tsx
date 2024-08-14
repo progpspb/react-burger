@@ -20,6 +20,7 @@ import {
     FeedPage 
 } from '../../pages';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 import { OnlyForAuthorized, OnlyForGuest} from '../protected-route/protected-route';
 
@@ -52,11 +53,11 @@ function App() {
                 <Routes location={background || location}>                
                     <Route path='/' element={<HomePage />} />
                     <Route path='*' element={<NotFoundPage />} />
+                    <Route path='/feed' element={<FeedPage />}/>
                     <Route path='/login' element={<OnlyForGuest component={<LoginPage/>}/>}/>
                     <Route path='/register' element={<OnlyForGuest component={<RegisterPage/>}/>}/>
                     <Route path='/forgot-password' element={<OnlyForGuest component={<ForgotPasswordPage/>}/>}/>
-                    <Route path='/reset-password' element={<OnlyForGuest component={<ResetPasswordPage/>}/>}/>
-                    <Route path='/feed' element={<OnlyForAuthorized component={<FeedPage/>}/>}/>
+                    <Route path='/reset-password' element={<OnlyForGuest component={<ResetPasswordPage/>}/>}/>                    
                     <Route path='/profile' element={<OnlyForAuthorized component={<ProfilePage/>}/>}>
                         <Route path='' element={<OnlyForAuthorized component={<ProfileEditPage />} />} />
                         <Route path='orders' element={<OnlyForAuthorized component={<ProfileOrdersPage />} />} />
@@ -71,6 +72,17 @@ function App() {
                                 <IngredientDetails/>
                             </Modal>
                         }/>
+                        <Route path='/feed/:id' element={
+                            <Modal onClose={handleModalClose} title={"Детали заказа"}>
+                                <OrderDetails />
+                            </Modal>
+                        }/>
+                        <Route path='/profile/orders/:id' element={<OnlyForAuthorized component={
+                            <Modal onClose={handleModalClose} title={"Детали заказа"}>
+                                <OrderDetails />
+                            </Modal>
+                            } />
+                        }/>                        
                     </Routes>
                 )}
                 </>

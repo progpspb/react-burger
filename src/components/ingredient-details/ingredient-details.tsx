@@ -5,7 +5,7 @@ import { useSelector } from '../../hooks';
 import { getIngredients } from '../../services/selectors';
 import { TIngredient } from '../../types/types';
 
-const IngredientDetails : FC = () => {
+const IngredientDetails: FC = () => {
 
   const { id } = useParams();
   const ingredients = useSelector(getIngredients);

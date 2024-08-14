@@ -11,13 +11,16 @@ import { createOrder } from '../../utils/api';
 import { useSelector, useDispatch } from '../../hooks/';
 import { getBurgerBun, getBurgerIngredients, setTotalPrice} from '../../services/selectors';
 import { addBun, addIngredient, moveIngredient, deleteIngredient, clearConstructor} from '../../services/actions/burger-constructor';
-import { getUser } from '../../services/selectors';
+import { setOrderDetails } from '../../services/actions/order-details';
+import { getUser, getOrderDetails } from '../../services/selectors';
 import { useNavigate } from 'react-router-dom';
-import { TIngredient } from '../../types/types';
+import { TIngredient, TOrderDetails } from '../../types/types';
 
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
+
+    let showOrderDetails = false;
 
     const bun = useSelector(getBurgerBun);
     const ingredients = useSelector(getBurgerIngredients);
@@ -26,7 +29,7 @@ const BurgerConstructor = () => {
     const user = useSelector(getUser);
     const navigate = useNavigate();
 
-    const [ orderDetails, setOrderDetails] = useState(null);
+    //const [ orderDetails, setOrderDetails] = useState({} as TOrderDetails);
     const { isModalOpen, openModal, closeModal } = useModal();
     const [ isLoading, setLoading ] = useState(false);
     const [ isError, setError ] = useState(false);
@@ -61,8 +64,10 @@ const BurgerConstructor = () => {
             try {
                 const result = await createOrder( data );
                 if(result.success) {
-                    setOrderDetails(result.order);
-                    dispatch(clearConstructor());                                       
+                    dispatch(setOrderDetails(result));  
+                    dispatch(clearConstructor());
+                    //orderDetails && navigate('/profile/orders/' + result.order.number);   
+                    showOrderDetails = true;                                
                 } else {
                     setError(true);                
                 }
@@ -158,10 +163,10 @@ const BurgerConstructor = () => {
                     <div className={styles.order_loading}><img src={loaderImg} alt="loader"/></div>
                 </Modal> 
                 ) : 
-            orderDetails && isModalOpen ? 
+            showOrderDetails && isModalOpen ? 
                 (
                 <Modal title = "Ваш заказ готов" onClose = { closeModal }>
-                    <OrderDetails order = {orderDetails} />
+                    <OrderDetails />
                 </Modal> 
                 ) :
             isError && (

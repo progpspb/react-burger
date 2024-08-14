@@ -1,5 +1,5 @@
 import { RootState } from '../types/index';
-import { TIngredient, TUser } from '../types/types';
+import { TIngredient, TUser, TOrderDetails } from '../types/types';
 
 // BurgerIngredients
 export const getIngredients = (state: RootState) : Array<TIngredient> => state.ingredients.ingredients;
@@ -25,3 +25,9 @@ export const isAuthorized = (state: RootState) : boolean => state.auth.isAuthori
 export const authIsLoading = (state: RootState) : boolean => state.auth.isLoading;
 export const authError = (state: RootState) : boolean => state.auth.isError;
 export const authErrMessage = (state: RootState) : string => state.auth.errMessage;
+
+// Order
+export const getOrderDetails = (state: RootState) : any => state.order.orderDetails;
+export const orderIsLoading = (state: RootState) : boolean => state.order.isLoading;
+export const orderError = (state: RootState) : boolean => state.order.isError;
+export const orderErrMessage = (state: RootState) : string => state.order.errMessage;

@@ -1,8 +1,21 @@
 import styles from './order-details.module.css';
 import { TOrderDetails } from '../../types/types';
 import doneImg from '../../images/done.png';
+import { FC } from "react";
+import { useParams } from "react-router";
+import { useSelector } from '../../hooks';
+import { getOrderDetails } from '../../services/selectors';
 
-const OrderDetails = ({order}: TOrderDetails) => {
+
+const OrderDetails: FC = () => {
+
+    const { id } = useParams();
+    const order = useSelector(getOrderDetails);
+    
+    if(!order) {
+      return null;
+    }
+
     return (
         <div className={styles.details}>
             <div className={styles.sum + 'text text_type_digits-large'}>{order.number}</div>

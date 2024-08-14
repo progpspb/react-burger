@@ -8,7 +8,8 @@ import {
 const initialState = {
     orderDetails: null,
     isLoading: false,    
-    isError: false
+    isError: false,
+    errMessage: ''
 };
 
 export const orderDetailsReducer = (state = initialState, action: TOrderActions) => {
@@ -30,7 +31,8 @@ export const orderDetailsReducer = (state = initialState, action: TOrderActions)
         case SEND_ORDER_FAILED: {
             return { 
                 ...initialState, 
-                isError: true 
+                isError: true,
+                errMessage: 'Произошла ошибка при создании заказа. Попробуйте еще раз. ' + action.payload
             }
         }
         default:
